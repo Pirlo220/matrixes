@@ -10,14 +10,19 @@ int main() {
 	string password1="password";
 	string password;
 
-	cout << "Please type in your password: ";
-	
+	cout << "Please type in your password: \n";
+		
 	while(c!=13){	
 		c=getch();
-		if(c!=13){
+		if(c == 8){
+			cout << password.substr(0, password.size()-1);
+			cout << (char)8;
+		}
+		else if(c!=13){
 			password += c;
 			cout << '*';
-		}		
+		}
+		
 	}
 	if(password == password1){
 		cout<< "\n";
