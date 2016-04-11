@@ -6,9 +6,6 @@
 
 using namespace std;
 
-const string ACCESS = "password";
-
-
 int main() {
 	int p = login();
 /*	char c = ' ';

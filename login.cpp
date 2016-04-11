@@ -1,37 +1,15 @@
-#include login.h
-#include <iostream>
+#include <conio.h>
 #include <cstdlib>
 #include <string>
-#include <conio.h>
+#include "login.h"
 
-using namespace std;
-
-const string ACCESS = "password";
+const std::string ACCESS = "password";
 
 int login(){
-	char c = ' ';
-	string password;	
-	cout << "Please type in your password: \n";
-	do{		
-		c=getch();
-		if(c==13){
-			cout << "\nPlease type in your password: \n";
-			password = "";
-		}
-		if(c >= 33 && c <= 122){//[0-9][A-Z,a-z]
-			password += c;
-			cout << '*';
-		}
-		else if (c == 8){//backspace implementation
-			cout << '\b';
-			cout << ' ';
-			cout << '\b';
-			password = password.substr(0, password.size()-1);
-		}	
-	}while(!isGranted(password));	
-	return EXIT_SUCCESS;
+
+	return 0;
 }
 
-bool isGranted(string mPass){
+bool isGranted(std::string mPass){
 	return (mPass == ACCESS);
 }
