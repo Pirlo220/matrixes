@@ -1,17 +1,15 @@
+#include login.h
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <conio.h>
-#include "login.h"
 
 using namespace std;
 
 const string ACCESS = "password";
 
-
-int main() {
-	int p = login();
-/*	char c = ' ';
+int login(){
+	char c = ' ';
 	string password;	
 	cout << "Please type in your password: \n";
 	do{		
@@ -36,6 +34,4 @@ int main() {
 
 bool isGranted(string mPass){
 	return (mPass == ACCESS);
-}*/
-return EXIT_SUCCESS;
 }
