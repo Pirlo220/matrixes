@@ -7,11 +7,26 @@
 const std::string ACCESS = "password";
 
 int login(){
-	#ifdef PI
-		std::cout << "El valor PI es: " << PI << ": ten fe en el caos" << std::endl;
-	#else
-		std::cout << "PI no esta definido..." << endl;
-	#endif
+	char c = ' ';
+	std::string password;	
+	std::cout << "Please type in your password: \n";
+	do{		
+		c=getch();
+		if(c==13){
+			std::cout << "\nPlease type in your password: \n";
+			password = "";
+		}
+		if(c >= 33 && c <= 122){//[0-9][A-Z,a-z]
+			password += c;
+			std::cout << '*';
+		}
+		else if (c == 8){//backspace implementation
+			std::cout << '\b';
+			std::cout << ' ';
+			std::cout << '\b';
+			password = password.substr(0, password.size()-1);
+		}	
+	}while(!isGranted(password));	
 	return 1;
 }
 
