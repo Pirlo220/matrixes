@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+
+#project files
+*.dev
+*.rc
+*.res
+*.win
