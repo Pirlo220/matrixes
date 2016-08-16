@@ -3,9 +3,9 @@ C++ Console app that creates and manages matrixes. Practices in C++ coding vulne
 ## postgres
 install libpqxx to comunicate the application with Postgresql http://pqxx.org/development/libpqxx/
 
-From Synaptic Package Manager install postgres, libp, and libpqxx
+From Synaptic Package Manager install postgres, libp, and lbpqxx
 
 To compile: 
->g++ example2.cpp -I /usr/local/include/pqxx -o main2 -lipqxx -lpq
+>g++ src/main.cpp -I /usr/local/include/pqxx -I include/ -o build/main -lpqxx -lpq
 and then 
 > ./main2
