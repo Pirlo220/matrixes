@@ -3,42 +3,52 @@
 #include <iostream>
 #include <pqxx/pqxx>
 #include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+
+using namespace std;
 
 const std::string ACCESS = "password";
 
+int getch() {
+  int ch;
+  struct termios t_old, t_new;
+
+  tcgetattr(STDIN_FILENO, &t_old);
+  t_new = t_old;
+  t_new.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &t_new);
+
+  ch = getchar();
+
+  tcsetattr(STDIN_FILENO, TCSANOW, &t_old);
+  return ch;
+}
+
 int login(){
-  char c = ' ';
-  std::string password;
-  std::string user="sergio";	
-  std::cout << "Please type in your password: \n";
-  //do{		
-    c=getchar();
-    std::cout << "HERE 0";
-    putchar(c);
-    if(c==13){
-      std::cout << "HERE 1";
-      std::cout << "\nPlease type in your password: \n";
-      password = "";
+  const char BACKSPACE=127;
+  const char RETURN=10;
+  string password;
+  string user = "sergio";
+  unsigned char ch=0;
+  std::cout << "Please type in your password: "<<endl;
+
+  while((ch=getch()) != RETURN){
+    if(ch == BACKSPACE){
+      if(password.length() != 0){
+	std::cout <<"\b \b";
+	password.resize(password.length()-1);
+      }
+    } else {
+      password+=ch;
+      std::cout <<'*';
     }
-    if(c >= 33 && c <= 122){//[0-9][A-Z,a-z]
-      password += c;
-      std::cout << "HERE 2";
-      std::cout << '*';
-    }
-    else if (c == 8){//backspace implementation
-      std::cout << "HERE 3";
-      std::cout << '\b';
-      std::cout << ' ';
-      std::cout << '\b';
-      password = password.substr(0, password.size()-1);
-    }	
-    //}while(!isGranted(user, password));	
-    return isGranted(user, password);
+  }
+  std::cout <<endl;
+  return isGranted(user, password);
 }
 
 bool isGranted(std::string user, std::string mPass){
-  //return (mPass == ACCESS);
-  int i = 0;
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
@@ -47,8 +57,6 @@ bool isGranted(std::string user, std::string mPass){
 			    "FROM users " 			   
 			    "WHERE name=" + txn.quote(user) +		    
 			    "AND password=" + txn.quote(mPass));
-  std::cout << mPass << "\n";
-
   return (r.size() == 1);
 }
 
