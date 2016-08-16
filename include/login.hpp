@@ -4,8 +4,7 @@
 #include <cstdlib>
 #include <string>
 
-
-int login();
-bool isGranted(std::string user, std::string mPass);
+int init_login();
+bool is_granted(std::string user, std::string mPass);
 
 #endif

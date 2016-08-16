@@ -25,13 +25,13 @@ int getch() {
   return ch;
 }
 
-int login(){
+int init_login(){
   const char BACKSPACE=127;
   const char RETURN=10;
   string password;
   string user = "sergio";
   unsigned char ch=0;
-  std::cout << "Please type in your password: "<<endl;
+  std::cout << "Please type in your password: ";
 
   while((ch=getch()) != RETURN){
     if(ch == BACKSPACE){
@@ -45,10 +45,10 @@ int login(){
     }
   }
   std::cout <<endl;
-  return isGranted(user, password);
+  return is_granted(user, password);
 }
 
-bool isGranted(std::string user, std::string mPass){
+bool is_granted(std::string user, std::string mPass){
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
@@ -60,6 +60,6 @@ bool isGranted(std::string user, std::string mPass){
   return (r.size() == 1);
 }
 
-std::string get_coded_pass(std::string mPass){
+std::string get_coded_password(std::string mPass){
 
 }

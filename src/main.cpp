@@ -10,13 +10,12 @@
 using namespace std;
 
 int main() {
-  int pass = login();
+  int pass = init_login();
   if(pass == 1){
-    int ii = 0;
-    std::cout << "YOU'RE IN!!\n";
+    std::cout << "YOU'RE IN!!"<<endl;
     return EXIT_SUCCESS;
   } else {
-    std::cout << "FAIL!! \n"; 
+    std::cout << "FAIL!!"<<endl; 
 }
 		//do{
 			//cin.clear();
