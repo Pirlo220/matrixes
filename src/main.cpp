@@ -10,8 +10,15 @@
 using namespace std;
 
 int main() {
-  int pass = init_login();
-  if(pass == 1){
+  const int MAX_ATTEMPTS = 3;
+  int attempts = 0;
+  bool granted = false;
+  do{
+    granted = init_login();
+    attempts++;
+  } while(attempts < MAX_ATTEMPTS && granted == false);
+
+  if(granted == true){
     std::cout << "YOU'RE IN!!"<<endl;
     return EXIT_SUCCESS;
   } else {

@@ -60,6 +60,9 @@ bool is_granted(std::string user, std::string mPass){
   return (r.size() == 1);
 }
 
+void increment_attempt_per_user(std::string user){
+}
+
 std::string get_coded_password(std::string mPass){
 
 }
