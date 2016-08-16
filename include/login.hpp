@@ -3,10 +3,9 @@
 
 #include <cstdlib>
 #include <string>
-#include <conio.h>
 
 
 int login();
-bool isGranted(std::string mPass);
+bool isGranted(std::string user, std::string mPass);
 
 #endif

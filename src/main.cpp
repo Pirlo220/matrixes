@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <conio.h>
 #include "login.cpp"
 #include <iomanip>
 #include <cmath>
@@ -11,8 +10,14 @@
 using namespace std;
 
 int main() {
-	int pass = login();
-	if(pass == 1){
+  int pass = login();
+  if(pass == 1){
+    int ii = 0;
+    std::cout << "YOU'RE IN!!\n";
+    return EXIT_SUCCESS;
+  } else {
+    std::cout << "FAIL!! \n"; 
+}
 		//do{
 			//cin.clear();
 			//std::cout << "\nPlease try to overflow the buffer: \n";
@@ -59,25 +64,25 @@ int main() {
 
 //Example for dynamic memory
 //http://www.cplusplus.com/doc/tutorial/dynamic/
-  int i,n;
-  int * p;
-  cout << "How many numbers would you like to type? ";
-  cin >> i;
-  p= new (nothrow) int[i];
-  if (p == nullptr)
-    cout << "Error: memory could not be allocated";
-  else
-  {
-    for (n=0; n<i; n++)
-    {
-      cout << "Enter number: ";
-      cin >> p[n];
-    }
-    cout << "You have entered: ";
-    for (n=0; n<i; n++)
-      cout << p[n] << ", ";
-    delete[] p;
-  }
-	}
-	return EXIT_SUCCESS;
+  // int i,n;
+  // int * p;
+  // cout << "How many numbers would you like to type? ";
+  // cin >> i;
+  // p= new (nothrow) int[i];
+  // if (p == nullptr)
+  //   cout << "Error: memory could not be allocated";
+  // else
+  // {
+  //   for (n=0; n<i; n++)
+  //   {
+  //     cout << "Enter number: ";
+  //     cin >> p[n];
+  //   }
+  //   cout << "You have entered: ";
+  //   for (n=0; n<i; n++)
+  //     cout << p[n] << ", ";
+  //   delete[] p;
+  // }
+  // 	}
+  // 	return EXIT_SUCCESS;
 }
