@@ -5,5 +5,7 @@ install libpqxx to comunicate the application with Postgresql http://pqxx.org/de
 
 From Synaptic Package Manager install postgres, libp, and libpqxx
 
-To compile g++ example2.cpp -I /usr/local/include/pqxx -o main2 -lipqxx -lpq
-and then ./main2
+To compile: 
+>g++ example2.cpp -I /usr/local/include/pqxx -o main2 -lipqxx -lpq
+and then 
+> ./main2
