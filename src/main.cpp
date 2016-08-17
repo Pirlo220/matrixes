@@ -8,15 +8,18 @@
 #include <cmath>
 #include <limits>
 #include <new>
-
+#include <sodium.h>
 
 using namespace std;
 
 int main() {
+  int initS = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized  
+  cout << initS<<endl;  
   bool granted = false;
   do{
     try{
       granted = init_login();
+      
       if(!granted){
 	std::cout <<endl;
 	std::cout << "Wrong User or Password!. Try it again..."<<endl;
