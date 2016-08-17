@@ -17,7 +17,8 @@ then:
 You need to run ldconfig after installing a new library.
 
 If you get error like libsodium.so.18: cannot open shared object file: No such file or directory
-You can execute cp /usr/local/lib/libsodium.so.18 /usr/lib
+You can execute 
+>cp /usr/local/lib/libsodium.so.18 /usr/lib
 
 To compile: 
 >g++ src/main.cpp -I /usr/local/include/pqxx -I include/ -o build/main -lpqxx -lpq -lsodium
