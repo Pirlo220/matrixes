@@ -10,7 +10,7 @@ Downlaod current tar from https://download.libsodium.org/libsodium/releases/
 then:
 >$ ./configure
 >$ make && make check
-># make install
+>su make install
 
 You need to run ldconfig after installing a new library.
 
@@ -20,4 +20,4 @@ You can execute cp /usr/local/lib/libsodium.so.18 /usr/lib
 To compile: 
 >g++ src/main.cpp -I /usr/local/include/pqxx -I include/ -o build/main -lpqxx -lpq -lsodium
 and then 
->> ./build/main
+>./build/main
