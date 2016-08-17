@@ -28,8 +28,8 @@ int getch() {
 int init_login(){
   const char BACKSPACE=127;
   const char RETURN=10;
-  string password;
-  string user = "sergio";
+  std::string password;
+  std::string user = "user";
   unsigned char ch=0;
   std::cout << "Please type in your password: ";
 
@@ -48,19 +48,52 @@ int init_login(){
   return is_granted(user, password);
 }
 
-bool is_granted(std::string user, std::string mPass){
+bool is_granted(std::string user_name, std::string mPass){
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
   pqxx::result r = txn.exec(
 			    "SELECT id " 
 			    "FROM users " 			   
-			    "WHERE name=" + txn.quote(user) +		    
+			    "WHERE name=" + txn.quote(user_name) +		    
 			    "AND password=" + txn.quote(mPass));
-  return (r.size() == 1);
+  bool result = (r.size() == 1);
+  if(!result) {
+    increment_attempt_per_user(user_name);
+  } else {
+    reset_attempts(user_name);
+  }
+  return result;
 }
 
-void increment_attempt_per_user(std::string user){
+void reset_attempts(std::string user_name){
+  pqxx::connection c("dbname=matrixes user=matrixuser");
+  pqxx::work txn(c);
+  txn.exec(
+	     "UPDATE users "
+	     "SET attempts = 0 "
+	     "WHERE name = " + txn.quote(user_name));
+
+  txn.commit();
+}
+
+void increment_attempt_per_user(std::string user_name){
+  pqxx::connection c("dbname=matrixes user=matrixuser");
+  pqxx::work txn(c);
+
+  pqxx::result r = txn.exec(
+			    "SELECT id " 
+			    "FROM users " 			   
+			    "WHERE name=" + txn.quote(user_name));
+  if(r.size() == 1){
+    int user_id = r[0][0].as<int>();
+    txn.exec(
+	     "UPDATE users "
+	     "SET attempts = attempts + 1 "
+	     "WHERE id = " + txn.quote(user_id));
+
+    txn.commit();
+  } 
 }
 
 std::string get_coded_password(std::string mPass){
