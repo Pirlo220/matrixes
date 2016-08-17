@@ -24,49 +24,35 @@ int getch() {
   return ch;
 }
 
-std::string get_user_name(){
+std::string get_user_input(string message, bool maskared){
   const char BACKSPACE=127;
   const char RETURN=10;
   unsigned char ch=0;
-  string user_name = "";
-  std::cout << "Please type in your user name: ";
-  while((ch=getch()) != RETURN){
-    
+  string user_value = "";
+  cout << message;
+  while((ch=getch()) != RETURN){    
     if(ch == BACKSPACE){
-      if(user_name.length() != 0){
-	std::cout <<"\b \b";
-	user_name.resize(user_name.length()-1);
+      if(user_value.length() != 0){
+	cout <<"\b \b";
+	user_value.resize(user_value.length()-1);
       }   
     } else {
-      user_name+=ch;
-      std::cout <<ch;
-    }
-    
+      user_value += ch;
+      if(maskared) {
+	cout << '*';
+      } else {
+	cout << ch;
+      }
+    }    
   }
- std::cout <<endl;
-  return user_name;
+  cout <<endl;
+  return user_value;
 }
 
-int init_login(){ ;
-  const char BACKSPACE=127;
-  const char RETURN=10;
-  std::string password;
-  std::string user = get_user_name();
-  unsigned char ch=0;
-  std::cout << "Please type in your password: ";
-
-  while((ch=getch()) != RETURN){   
-    if(ch == BACKSPACE){
-      if(password.length() != 0){
-	std::cout <<"\b \b";
-	password.resize(password.length()-1);
-      }
-    } else {
-      password+=ch;
-      std::cout <<'*';
-    }
-  }  
-  std::cout <<endl;
+int init_login(){   
+  string user = get_user_input( "Please type in your user name: ", false);
+  string password = get_user_input( "Please type in your password: ", true);  
+  cout <<endl;
   return is_granted(user, password);
 }
 

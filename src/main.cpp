@@ -19,7 +19,7 @@ int main() {
       granted = init_login();
       if(!granted){
 	std::cout <<endl;
-	std::cout << "Wrong User or Password!. Try it again"<<endl;
+	std::cout << "Wrong User or Password!. Try it again..."<<endl;
 	std::cout <<endl;
       }     
     } catch(LockedUserException &e){
