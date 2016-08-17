@@ -9,8 +9,6 @@
 
 using namespace std;
 
-const std::string ACCESS = "password";
-
 int getch() {
   int ch;
   struct termios t_old, t_new;
@@ -26,15 +24,38 @@ int getch() {
   return ch;
 }
 
+std::string get_user_name(){
+  const char BACKSPACE=127;
+  const char RETURN=10;
+  unsigned char ch=0;
+  string user_name = "";
+  std::cout << "Please type in your user name: ";
+  while((ch=getch()) != RETURN){
+    
+    if(ch == BACKSPACE){
+      if(user_name.length() != 0){
+	std::cout <<"\b \b";
+	user_name.resize(user_name.length()-1);
+      }   
+    } else {
+      user_name+=ch;
+      std::cout <<ch;
+    }
+    
+  }
+ std::cout <<endl;
+  return user_name;
+}
+
 int init_login(){ ;
   const char BACKSPACE=127;
   const char RETURN=10;
   std::string password;
-  std::string user = "user";
+  std::string user = get_user_name();
   unsigned char ch=0;
   std::cout << "Please type in your password: ";
 
-  while((ch=getch()) != RETURN){
+  while((ch=getch()) != RETURN){   
     if(ch == BACKSPACE){
       if(password.length() != 0){
 	std::cout <<"\b \b";
@@ -44,7 +65,7 @@ int init_login(){ ;
       password+=ch;
       std::cout <<'*';
     }
-  }
+  }  
   std::cout <<endl;
   return is_granted(user, password);
 }

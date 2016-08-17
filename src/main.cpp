@@ -17,7 +17,11 @@ int main() {
   do{
     try{
       granted = init_login();
-     
+      if(!granted){
+	std::cout <<endl;
+	std::cout << "Wrong User or Password!. Try it again"<<endl;
+	std::cout <<endl;
+      }     
     } catch(LockedUserException &e){
       std::cerr << "exception caught: " << e.message() << endl;
       return EXIT_SUCCESS;
@@ -25,6 +29,7 @@ int main() {
   } while(granted == false);
 
   if(granted == true){
+    std::cout <<endl;
     std::cout << "YOU'RE IN!!"<<endl;
     return EXIT_SUCCESS;
   } else {
