@@ -2,28 +2,34 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <mexceptions.hpp>
 #include "login.cpp"
 #include <iomanip>
 #include <cmath>
 #include <limits>
 #include <new>
+
+
 using namespace std;
 
 int main() {
-  const int MAX_ATTEMPTS = 3;
-  int attempts = 0;
   bool granted = false;
   do{
-    granted = init_login();
-    attempts++;
-  } while(attempts < MAX_ATTEMPTS && granted == false);
+    try{
+      granted = init_login();
+     
+    } catch(LockedUserException &e){
+      std::cerr << "exception caught: " << e.message() << endl;
+      return EXIT_SUCCESS;
+    }
+  } while(granted == false);
 
   if(granted == true){
     std::cout << "YOU'RE IN!!"<<endl;
     return EXIT_SUCCESS;
   } else {
     std::cout << "FAIL!!"<<endl; 
-}
+  }
 		//do{
 			//cin.clear();
 			//std::cout << "\nPlease try to overflow the buffer: \n";

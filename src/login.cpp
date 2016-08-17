@@ -6,6 +6,7 @@
 #include <termios.h>
 #include <unistd.h>
 
+
 using namespace std;
 
 const std::string ACCESS = "password";
@@ -25,7 +26,7 @@ int getch() {
   return ch;
 }
 
-int init_login(){
+int init_login(){ ;
   const char BACKSPACE=127;
   const char RETURN=10;
   std::string password;
@@ -49,6 +50,9 @@ int init_login(){
 }
 
 bool is_granted(std::string user_name, std::string mPass){
+  if(is_user_locked(user_name)){
+    throw LockedUserException();  
+  }
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
@@ -75,6 +79,18 @@ void reset_attempts(std::string user_name){
 	     "WHERE name = " + txn.quote(user_name));
 
   txn.commit();
+}
+
+bool is_user_locked(std::string user_name){
+  pqxx::connection c("dbname=matrixes user=matrixuser");
+  pqxx::work txn(c);
+
+  pqxx::result r = txn.exec(
+			    "SELECT id " 
+			    "FROM users " 			   
+			    "WHERE name=" + txn.quote(user_name) +		    
+			    "AND attempts=attempts_allowed");
+ return (r.size() == 1);  
 }
 
 void increment_attempt_per_user(std::string user_name){
