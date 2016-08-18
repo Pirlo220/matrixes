@@ -5,9 +5,74 @@
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
-
+#include <sodium.h>
+#include <cstring>
 
 using namespace std;
+
+#define OUT_LEN 128
+#define OPSLIMIT 500000
+#define MEMLIMIT 5000000
+#define KEY_LEN crypto_box_SEEDBYTES
+#define PASSWORD ((const unsigned char *) "correctpassword")
+
+
+void update_password_user(const char* user_passw){
+  pqxx::connection c("dbname=matrixes user=matrixuser");
+  pqxx::work txn(c);
+
+ 
+  txn.exec(
+	   "UPDATE users "
+	   "SET password = " + txn.quote(user_passw) +
+	   "WHERE id = 1 ");
+
+  txn.commit();
+  
+}
+
+bool is_valid_passw(string user_passw, string stored_passw){
+  string prev = "$7$A6....1....tH7FkmjyR1r8c.FHxNRBzH8cELB7.2GE/KMuZ6OSoR0$IirNbounH6J6xK3w7VASRMCMgCWh/xuc3Tl5HPCQhE3";
+  const char* prevv = prev.c_str();
+  //cout << "user_pass: "<< user_passw << endl;
+  //cout << "stored_passw: " << stored_passw << endl;
+  int in = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized;
+ 
+  char hashed_password[crypto_pwhash_scryptsalsa208sha256_STRBYTES];
+  const char* user_p = user_passw.c_str();
+  const char* stored_p = stored_passw.c_str();
+  if (crypto_pwhash_scryptsalsa208sha256_str
+      (hashed_password, user_p, strlen(user_p),
+       OPSLIMIT,
+       MEMLIMIT) != 0) {
+    cout << "out of memory"<<endl;
+    return false;
+  }
+
+  bool result = false;
+  /*cout << "result 1: " << (crypto_pwhash_scryptsalsa208sha256_str_verify
+			  (hashed_password, stored_p, strlen(stored_p)))<<endl;
+
+ cout << "result 2: " << (crypto_pwhash_scryptsalsa208sha256_str_verify
+			  (hashed_password, PASSWORD, strlen(PASSWORD)))<<endl;
+
+ cout << "result 3: " << (crypto_pwhash_scryptsalsa208sha256_str_verify
+			  (prevv, PASSWORD, strlen(PASSWORD)))<<endl;
+  */
+unsigned char hash[crypto_generichash_BYTES];
+unsigned char key[crypto_generichash_KEYBYTES];
+
+randombytes_buf(key, sizeof key);
+
+crypto_generichash(hash, sizeof hash,
+                   PASSWORD, sizeof PASSWORD,
+                   key, sizeof key);
+
+ cout << "hash: " << hash << endl;
+
+  return (result != 0);
+}
+
 
 int getch() {
   int ch;
@@ -52,23 +117,24 @@ std::string get_user_input(string message, bool maskared){
 int init_login(){   
   string user = get_user_input( "Please type in your user name: ", false);
   string password = get_user_input( "Please type in your password: ", true);  
-  cout <<endl;
   return is_granted(user, password);
 }
 
-bool is_granted(std::string user_name, std::string mPass){
+bool is_granted(std::string user_name, std::string user_passw){
   if(is_user_locked(user_name)){
     throw LockedUserException();  
   }
+  bool result = false;
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
   pqxx::result r = txn.exec(
-			    "SELECT id " 
+			    "SELECT id, password " 
 			    "FROM users " 			   
-			    "WHERE name=" + txn.quote(user_name) +		    
-			    "AND password=" + txn.quote(mPass));
-  bool result = (r.size() == 1);
+			    "WHERE name=" + txn.quote(user_name));
+  if(r.size() == 1){
+    result = is_valid_passw(user_passw,r[0][1].as<string>());
+  }
   if(!result) {
     increment_attempt_per_user(user_name);
   } else {
@@ -89,6 +155,7 @@ void reset_attempts(std::string user_name){
 }
 
 bool is_user_locked(std::string user_name){
+
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
@@ -118,6 +185,7 @@ void increment_attempt_per_user(std::string user_name){
     txn.commit();
   } 
 }
+
 
 std::string get_coded_password(std::string mPass){
 
