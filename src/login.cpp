@@ -17,25 +17,23 @@ using namespace std;
 //user  - "password"
 //user2 - " password2" 
 
-
-
 void update_password_user(const char* user_passw, string user_name){
   pqxx::connection c("dbname=matrixes user=matrixuser");
-  pqxx::work txn(c);
-
- 
+  pqxx::work txn(c); 
   txn.exec(
 	   "UPDATE users "
 	   "SET password = " + txn.quote(user_passw) +
 	   "WHERE name = " + txn.quote(user_name));
 
-  txn.commit();
-  
+  txn.commit();  
 }
 
 bool is_valid_passw(string user_name, string user_passw, string stored_passw){
-
-  int in = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized;
+  int init_sodium = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized;
+  if(init_sodium == -1){
+    cerr << "exception caught: " << "Error initalizing Sodium Library" << endl;
+    return -1;
+  }
   bool result = false;
   char hashed_password[crypto_pwhash_scryptsalsa208sha256_STRBYTES];
   const char* user_p = user_passw.c_str();
@@ -49,29 +47,11 @@ bool is_valid_passw(string user_name, string user_passw, string stored_passw){
   }
   if (crypto_pwhash_scryptsalsa208sha256_str_verify
       (stored_p, user_p, strlen(user_p)) != 0) {
-    cout << "Wrong pasword"<<endl;
     result = false;
   } else {
     result = true;
     update_password_user(hashed_password, user_name);
   }
-  /*
-  string p1 = "password";
-  string p2 = "password2";
-  const char* p1_p = p1.c_str();
-  const char* p2_p = p2.c_str();
-
-  int v = crypto_pwhash_scryptsalsa208sha256_str
-    (hashed_password, p1_p, strlen(p1_p),
-     OPSLIMIT,
-     MEMLIMIT);
-  update_password_user(hashed_password, "user");
-  int x = crypto_pwhash_scryptsalsa208sha256_str
-    (hashed_password, p2_p, strlen(p2_p),
-     OPSLIMIT,
-     MEMLIMIT);
-  update_password_user(hashed_password, "user2");
-  */
   return result;
 }
 
@@ -97,7 +77,7 @@ std::string get_user_input(string message, bool maskared){
   unsigned char ch=0;
   string user_value = "";
   cout << message;
-  while((ch=getch()) != RETURN){    
+  while(((ch=getch()) !='\n') && ch != EOF){//!= RETURN){    
     if(ch == BACKSPACE){
       if(user_value.length() != 0){
 	cout <<"\b \b";
