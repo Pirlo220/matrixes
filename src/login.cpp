@@ -12,12 +12,14 @@ using namespace std;
 
 #define OUT_LEN 128
 #define OPSLIMIT 500000
-#define MEMLIMIT 500000
+#define MEMLIMIT 5000000
 #define KEY_LEN crypto_box_SEEDBYTES
-//#define PASSWORD ((const unsigned char *) "correctpassword")
+//user  - "password"
+//user2 - " password2" 
 
 
-void update_password_user(const char* user_passw){
+
+void update_password_user(const char* user_passw, string user_name){
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
 
@@ -25,20 +27,16 @@ void update_password_user(const char* user_passw){
   txn.exec(
 	   "UPDATE users "
 	   "SET password = " + txn.quote(user_passw) +
-	   "WHERE id = 1 ");
+	   "WHERE name = " + txn.quote(user_name));
 
   txn.commit();
   
 }
 
-bool is_valid_passw(string user_passw, string stored_passw){
-  /*
-  string prev = "$7$A6....1....tH7FkmjyR1r8c.FHxNRBzH8cELB7.2GE/KMuZ6OSoR0$IirNbounH6J6xK3w7VASRMCMgCWh/xuc3Tl5HPCQhE3";
-  const char* prevv = prev.c_str();
-  //cout << "user_pass: "<< user_passw << endl;
-  //cout << "stored_passw: " << stored_passw << endl;
+bool is_valid_passw(string user_name, string user_passw, string stored_passw){
+
   int in = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized;
- 
+  bool result = false;
   char hashed_password[crypto_pwhash_scryptsalsa208sha256_STRBYTES];
   const char* user_p = user_passw.c_str();
   const char* stored_p = stored_passw.c_str();
@@ -49,37 +47,32 @@ bool is_valid_passw(string user_passw, string stored_passw){
     cout << "out of memory"<<endl;
     return false;
   }
-  */
-  bool result = false;
-  /*cout << "result 1: " << (crypto_pwhash_scryptsalsa208sha256_str_verify
-			  (hashed_password, stored_p, strlen(stored_p)))<<endl;
-
-			  cout << "result 2: " << (crypto_pwhash_scryptsalsa208sha256_str_verify
-			  (hashed_password, PASSWORD, strlen(PASSWORD)))<<endl;
-
-			  cout << "result 3: " << (crypto_pwhash_scryptsalsa208sha256_str_verify
-			  (prevv, PASSWORD, strlen(PASSWORD)))<<endl;
-  */
-#define PASSWORD "Correct Horse Battery Staple"
-#define KEY_LEN crypto_box_SEEDBYTES
-
-  unsigned char salt[crypto_pwhash_scryptsalsa208sha256_SALTBYTES];
-  unsigned char key[KEY_LEN];
-  unsigned char out[256];
-char out_hex[256 * 2 + 1];
-
-  randombytes_buf(salt, sizeof salt);
-  cout << salt;
-
-  if (crypto_pwhash_scryptsalsa208sha256
-      (key, sizeof key, PASSWORD, strlen(PASSWORD), reinterpret_cast<const unsigned char *>( "123" ),
-       crypto_pwhash_scryptsalsa208sha256_OPSLIMIT_INTERACTIVE,
-       crypto_pwhash_scryptsalsa208sha256_MEMLIMIT_INTERACTIVE) != 0) {
-    /* out of memory */
+  if (crypto_pwhash_scryptsalsa208sha256_str_verify
+      (stored_p, user_p, strlen(user_p)) != 0) {
+    cout << "Wrong pasword"<<endl;
+    result = false;
+  } else {
+    result = true;
+    update_password_user(hashed_password, user_name);
   }
-  sodium_bin2hex(out_hex, sizeof out_hex, key, sizeof out);
-  cout<< out_hex;
-  return (result != 0);
+  /*
+  string p1 = "password";
+  string p2 = "password2";
+  const char* p1_p = p1.c_str();
+  const char* p2_p = p2.c_str();
+
+  int v = crypto_pwhash_scryptsalsa208sha256_str
+    (hashed_password, p1_p, strlen(p1_p),
+     OPSLIMIT,
+     MEMLIMIT);
+  update_password_user(hashed_password, "user");
+  int x = crypto_pwhash_scryptsalsa208sha256_str
+    (hashed_password, p2_p, strlen(p2_p),
+     OPSLIMIT,
+     MEMLIMIT);
+  update_password_user(hashed_password, "user2");
+  */
+  return result;
 }
 
 
@@ -142,7 +135,7 @@ bool is_granted(std::string user_name, std::string user_passw){
 			    "FROM users " 			   
 			    "WHERE name=" + txn.quote(user_name));
   if(r.size() == 1){
-    result = is_valid_passw(user_passw,r[0][1].as<string>());
+    result = is_valid_passw(user_name, user_passw,r[0][1].as<string>());
   }
   if(!result) {
     increment_attempt_per_user(user_name);
