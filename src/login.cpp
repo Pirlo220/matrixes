@@ -79,18 +79,20 @@ string get_user_input(string message, bool maskared, int max_length){
   unsigned char ch=0;
   string user_value = "";
   cout << message;
-  while(((ch=getch()) !='\n') && ch != EOF){//!= RETURN){    
+  while(((ch=getch()) !='\n') && (ch != EOF)){//!= RETURN){    
     if(ch == BACKSPACE){
       if(user_value.length() != 0){
 	cout <<"\b \b";
 	user_value.resize(user_value.length()-1);
       }   
     } else {
-      user_value += ch;
-      if(maskared) {
-	cout << '*';
-      } else {
-	cout << ch;
+      if( strlen(user_value.c_str()) < max_length){
+	user_value += ch;
+	if(maskared) {
+	  cout << '*';
+	} else {
+	  cout << ch;
+	}
       }
     }    
   }
