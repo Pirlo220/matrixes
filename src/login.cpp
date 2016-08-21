@@ -96,7 +96,7 @@ std::string get_user_input(string message, bool maskared){
   return user_value;
 }
 
-int init_login(){   
+int login(){   
   string user = get_user_input( "Please type in your user name: ", false);
   string password = get_user_input( "Please type in your password: ", true);  
   return is_granted(user, password);
