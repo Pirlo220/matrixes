@@ -14,6 +14,8 @@ using namespace std;
 #define OPSLIMIT 500000
 #define MEMLIMIT 5000000
 #define KEY_LEN crypto_box_SEEDBYTES
+#define USER_NAME_MAX_LENGTH 16
+#define USER_PASSW_MAX_LENGTH 12
 //user  - "password"
 //user2 - " password2" 
 
@@ -71,7 +73,7 @@ int getch() {
   return ch;
 }
 
-std::string get_user_input(string message, bool maskared){
+string get_user_input(string message, bool maskared, int max_length){
   const char BACKSPACE=127;
   const char RETURN=10;
   unsigned char ch=0;
@@ -97,8 +99,8 @@ std::string get_user_input(string message, bool maskared){
 }
 
 int login(){   
-  string user = get_user_input( "Please type in your user name: ", false);
-  string password = get_user_input( "Please type in your password: ", true);  
+  string user = get_user_input( "Please type in your user name: ", false, USER_NAME_MAX_LENGTH);
+  string password = get_user_input( "Please type in your password: ", true, USER_PASSW_MAX_LENGTH);  
   return is_granted(user, password);
 }
 
