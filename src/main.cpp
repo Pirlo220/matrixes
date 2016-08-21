@@ -32,8 +32,6 @@ int main() {
     std::cout <<endl;
     std::cout << "WELCOME, YOU'RE IN!!"<<endl;
     return EXIT_SUCCESS;
-  } else {
-    std::cout << "TRY AGAIN!!"<<endl; 
   }
 		//do{
 			//cin.clear();
