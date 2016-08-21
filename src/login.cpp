@@ -33,20 +33,20 @@ void update_password_user(const char* user_passw, string user_name){
 bool is_valid_passw(string user_name, string user_passw, string stored_passw){
   int init_sodium = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized;
   if(init_sodium == -1){
-    cerr << "exception caught: " << "Error initalizing Sodium Library" << endl;
+    cerr << "exception caught: " << "Error initializing Sodium Library" << endl;
     return -1;
   }
   bool result = false;
-  char hashed_password[crypto_pwhash_scryptsalsa208sha256_STRBYTES];
+  //char hashed_password[crypto_pwhash_scryptsalsa208sha256_STRBYTES];
   const char* user_p = user_passw.c_str();
   const char* stored_p = stored_passw.c_str();
-  if (crypto_pwhash_scryptsalsa208sha256_str
+  /*if (crypto_pwhash_scryptsalsa208sha256_str
       (hashed_password, user_p, strlen(user_p),
        OPSLIMIT,
        MEMLIMIT) != 0) {
     cout << "out of memory"<<endl;
     return false;
-  }
+  }*/
   if (crypto_pwhash_scryptsalsa208sha256_str_verify
       (stored_p, user_p, strlen(user_p)) != 0) {
     result = false;
