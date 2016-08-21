@@ -13,13 +13,10 @@
 using namespace std;
 
 int main() {
-  int initS = sodium_init();// 0 on Success, -1 on failure, 1 the library is already initialized  
-  cout << initS<<endl;  
   bool granted = false;
   do{
     try{
-      granted = init_login();
-      
+      granted = login();
       if(!granted){
 	std::cout <<endl;
 	std::cout << "Wrong User or Password!. Try it again..."<<endl;
@@ -27,16 +24,16 @@ int main() {
       }     
     } catch(LockedUserException &e){
       std::cerr << "exception caught: " << e.message() << endl;
-      return EXIT_SUCCESS;
+      return EXIT_ERROR;
     }
   } while(granted == false);
 
   if(granted == true){
     std::cout <<endl;
-    std::cout << "YOU'RE IN!!"<<endl;
+    std::cout << "WELCOME, YOU'RE IN!!"<<endl;
     return EXIT_SUCCESS;
   } else {
-    std::cout << "FAIL!!"<<endl; 
+    std::cout << "TRY AGAIN!!"<<endl; 
   }
 		//do{
 			//cin.clear();
