@@ -26,5 +26,4 @@ void print_menu(bool complete){
     cout << " " << MenuValuesConstants::OrdenarColumna << ".- Ordenar Columna" << endl;  
   }
   cout << endl;
-  cout << " INTRODUCE UNA OPCIÓN: ";
 }
