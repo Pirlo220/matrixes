@@ -4,6 +4,7 @@
 #include <string>
 #include <mexceptions.hpp>
 #include "login.cpp"
+#include "menu.cpp"
 #include <iomanip>
 #include <cmath>
 #include <limits>
@@ -23,14 +24,13 @@ int main() {
 	std::cout <<endl;
       }     
     } catch(LockedUserException &e){
-      std::cerr << "exception caught: " << e.message() << endl;
-      return EXIT_ERROR;
+      std::cerr << "exception caught: " << e.message() << endl;    
     }
   } while(granted == false);
 
   if(granted == true){
-    std::cout <<endl;
-    std::cout << "WELCOME, YOU'RE IN!!"<<endl;
+    system("clear");
+    print_menu(false);
     return EXIT_SUCCESS;
   }
 		//do{
