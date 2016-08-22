@@ -4,7 +4,7 @@
 #include <string>
 #include <mexceptions.hpp>
 #include "login.cpp"
-#include "menu.cpp"
+#include "matrix_management.cpp"
 #include <iomanip>
 #include <cmath>
 #include <limits>
@@ -29,9 +29,12 @@ int main() {
   } while(granted == false);
 
   if(granted == true){
-    system("clear");
-    print_menu(false);
-    return EXIT_SUCCESS;
+   
+    int matrix_id = 0;
+    bool mcontinue = true;
+    do{
+      mcontinue = run_app(matrix_id);
+    }while(mcontinue);    
   }
 		//do{
 			//cin.clear();

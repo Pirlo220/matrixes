@@ -1,0 +1,8 @@
+void print_menu(){
+  cout << "0.- Mostar Menú" << endl;
+  cout << "1.- Mostar Matriz" << endl;
+  cout << "2.- Buscar Matrices Guardadas" << endl;
+  cout << "3.- Nueva Matriz" << endl;
+  cout << "4.- Seleccionar Matriz" << endl;
+  cout << "5.- Mostrar Histórico de Movimientos" << endl;
+}

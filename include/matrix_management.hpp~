@@ -1,0 +1,2 @@
+bool run_option(int option, int matrix_id);
+bool run_app(int matrix_id);
