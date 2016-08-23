@@ -2,6 +2,7 @@
 #include "menu.cpp"
 #include <cstring>
 #include <stdlib.h>     /* atoi */
+#include "matrix.cpp"
 
 bool run_option(int option, int matrix_id){
   switch(option){
@@ -13,6 +14,19 @@ bool run_option(int option, int matrix_id){
   }
   case 2 : {
     cout << '2';
+    break;
+  }
+  case 3: {
+    cout << "Introduce Número de Columnas: ";
+    int cols = 0;
+    cin >> cols;
+    cout << "Introduce Número de Filas: ";
+    int rows = 0;
+    cin >> rows;
+    Matrix<float> Foo(cols, rows);
+       
+    //Foo.Matrix<float>::~Matrix();
+    
     break;
   }
   }

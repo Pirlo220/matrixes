@@ -1,0 +1,34 @@
+class Matrix {
+public:
+  Matrix();
+  Matrix(int cols, int rows);
+  int getID();
+  string getName();
+  int getNumColumns();
+  int getNumRows();
+  float[][] getValues();
+
+  Matrix(){
+    values = new float[10][10]();
+    for(int x = 0; x < 10; x++){
+      for(int y = 0; y < 10; y++){
+	values[x][y] = 0;
+      }
+    }
+  }
+
+  Matrix(int cols, int rows){
+    values = new float[cols][rows]();
+    for(int x = 0; x < cols; x++){
+      for(int y = 0; y < rows; y++){
+	values[x][y] = 0;
+      }
+    }
+  }
+private:
+  int id;
+  string name;
+  int numColumns;
+  int numRows;
+  float[][]values;
+}

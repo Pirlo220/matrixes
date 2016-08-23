@@ -1,0 +1,32 @@
+#include "Matrix.h"
+
+
+Matrix<T>::Matrix(int gridWidth = 1, int gridHeight = 1)
+	: mGridWidth(gridWidth), mGridHeight(gridHeight)
+{
+	mGrid = new T [mGridWidth * mGridHeight];
+}
+
+
+Matrix<T>::~Matrix(void)
+{
+	delete[] mGrid;
+}
+
+template <typename T>
+T& Matrix<T>::operator ()(int column, int row)
+{
+	return mGrid[column * mGridWidth + row];
+}
+
+
+int Matrix<T>::GetWidth()
+{
+	return mGridWidth;
+}
+
+
+int Matrix<T>::GetHeight()
+{
+	return mGridHeight;
+}
