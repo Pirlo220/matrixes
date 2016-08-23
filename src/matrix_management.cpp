@@ -17,12 +17,23 @@ bool run_option(int option, int matrix_id){
     break;
   }
   case 3: {
-    cout << "Introduce Número de Columnas: ";
-    int cols = 0;
-    cin >> cols;
-    cout << "Introduce Número de Filas: ";
+    string name = UtilsLibrary::get_user_input(" Introduce Nombre Para la Matriz: ", false, 20);
+    cout << " Introduce Número de Columnas: ";
+    int cols = 0;    
+    while(!(cin >> cols)){
+      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    
+    cout << " Introduce Número de Filas: ";
     int rows = 0;
     cin >> rows;
+    while(!(cin >> rows)){
+      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
     Matrix<float> Foo(cols, rows);
        
     //Foo.Matrix<float>::~Matrix();
