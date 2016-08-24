@@ -29,7 +29,8 @@ namespace AppValues {
 #define KEY_LEN crypto_box_SEEDBYTES
 #define USER_NAME_MAX_LENGTH 16
 #define USER_PASSW_MAX_LENGTH 12
-const int MAX_COLS = 10;
-const int MAX_ROWS = 10;
+  const int MAX_COLS = 10;
+  const int MAX_ROWS = 10;
+  const int EXIT_CODE = -2;
 }
 #endif

@@ -32,11 +32,10 @@ int main() {
    
     int matrix_id = 0;
     bool mcontinue = true;
-    do{
+    do {
       cout << "run_app" << endl;
-      mcontinue = run_app(matrix_id);
-      cout << "fuera de run_app" << endl;
-    }while(mcontinue);    
+      matrix_id = run_app(matrix_id);
+    } while(matrix_id != AppValues::EXIT_CODE);    
   }
 		//do{
 			//cin.clear();
