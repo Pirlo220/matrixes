@@ -1,1 +1,0 @@
-Matrix<float> save_matrix(Matrix<float> matrix);
