@@ -4,6 +4,7 @@
 #include <stdlib.h>     /* atoi */
 #include "matrix.cpp"
 #include "matrix_DAO.cpp"
+#include <LibConstants.hpp>
 
 bool run_option(int option, int matrix_id){
   switch(option){
@@ -19,15 +20,15 @@ bool run_option(int option, int matrix_id){
     string name = UtilsLibrary::get_user_input(" Introduce Nombre Para la Matriz: ", false, 20);
     cout << " Introduce Número de Columnas: ";
     int cols = 0;    
-    while(!(cin >> cols)){
+    while(!(cin >> cols) || (cols >= AppValues::MAX_COLS)){
       cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
-    
+    cout << AppValues::MAX_ROWS << endl;
     cout << " Introduce Número de Filas: ";
     int rows = 0;
-    while(!(cin >> rows)){
+    while(!(cin >> rows) || (rows >= AppValues::MAX_ROWS)){
       cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
       cin.clear();
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
