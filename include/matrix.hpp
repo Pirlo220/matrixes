@@ -5,17 +5,21 @@ template <typename T>
 class Matrix
 {
 private:
-	int mGridWidth;
-	int mGridHeight;
-	T *mGrid;
-	Matrix();
+  int mCols;
+  int mRows;
+  string mName;
+  int mOwnerID;
+  T *mGrid;
+  Matrix();
 
 public:
-	Matrix(int gridWidth, int gridHeight);
-	~Matrix(void);
-	T& operator ()(int column, int row);
-	int GetWidth();
-	int GetHeight();
+  Matrix(int cols, int rows, int ownerID, string name);
+  ~Matrix(void);
+  T& operator ()(int column, int row, int ownerID, string name);
+  int getCols();
+  int getRows();
+  string getName();
+  int getOwnerID();
 };
 
 #endif 

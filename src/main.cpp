@@ -33,7 +33,9 @@ int main() {
     int matrix_id = 0;
     bool mcontinue = true;
     do{
+      cout << "run_app" << endl;
       mcontinue = run_app(matrix_id);
+      cout << "fuera de run_app" << endl;
     }while(mcontinue);    
   }
 		//do{

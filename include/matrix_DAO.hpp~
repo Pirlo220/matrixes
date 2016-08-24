@@ -1,0 +1,7 @@
+#ifndef MATRIX_DAO_HPP    
+#define MATRIX_DAO_HPP
+
+Matrix<float> save_matrix(Matrix<float> matrix);
+
+
+#endif
