@@ -6,6 +6,20 @@ void save_matrix_content(Matrix<float> *matrix){
  
 }*/
 
+void save_matrix_content(pqxx::transaction_base &txn, int id_matrix, int col_index, int row_index, float value){
+  // pqxx::connection c("dbname=matrixes user=matrixuser");
+  //pqxx::work txn(c); 
+  txn.exec(
+	   "INSERT INTO matrix_content(id_matrix, col_index, row_index, value) "
+	   "VALUES (" +
+	   txn.quote(id_matrix) + ", " +
+	   txn.quote(col_index) + ", " +
+	   txn.quote(row_index) + ", " +
+	   txn.quote(value) +
+	   ")");
+  //txn.commit();
+}
+
 int save_matrix(Matrix<float> *matrix){
   int id = -1;
   try{
@@ -20,30 +34,25 @@ int save_matrix(Matrix<float> *matrix){
 			      + txn.quote(matrix->getRows()) +	   
 			      ") returning id");
 
-    txn.commit();
-
-    int dimension = matrix->getCols() * matrix->getRows();
-    int p = 0;
    
- 
-      for(int i = 0; i < matrix->getRows();i++){
-   for(int c = 0; c <  matrix->getCols();c++){
-      //cout << "Pos (" << c << ", " << i << ") Value: " << matrix->operator()(c, i) << endl;
-	matrix->assign(i,c, 0.40f + p);
-	p++;
-      }
-    }
-   
-
+  
+    
+     /*
     for(int i = 0; i < matrix->getRows();i++){
       for(int c = 0; c <  matrix->getCols();c++){
 	cout << "Pos (" << i << ", " << c << ") Post Value: " << matrix->operator()(i, c) << endl;
 	cout << "Real Poos " << (i * matrix->getCols()) + c << endl;
       }
     }
-    
+    */
     id = r[0][0].as<int>();
-
+    for(int r = 0; r < matrix->getRows();r++){
+      for(int c = 0; c <  matrix->getCols();c++){
+      	//matrix->assign(r,c, 0.00f);
+	save_matrix_content(txn,id, c, r, 0.00f);
+      }
+    }
+    txn.commit();
   } catch (const std::exception &e) {
 	// There's no need to check our database calls for errors.  If
 	// any of them fails, it will throw a normal C++ exception.
