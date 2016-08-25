@@ -13,9 +13,10 @@ private:
   Matrix();
 
 public:
-  Matrix(int cols, int rows, int ownerID, string name);
+  Matrix(int rows, int cols, int ownerID, string name);
   ~Matrix(void);
-  T& operator ()(int column, int row, int ownerID, string name);
+  T& operator ()(int row, int column);
+  float assign (int row, int column, float value);
   int getCols();
   int getRows();
   string getName();

@@ -42,11 +42,15 @@ int run_option(int option, int matrix_id){
 	  cin.clear();
 	  cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
-	Matrix<float> mMatrix(cols, rows, 1, name);
+	Matrix<float> mMatrix(rows, cols, 1, name);
 	Matrix<float> *c = &mMatrix;
 	selected_id =  save_matrix(c);
 	cin.ignore(1024, '\n');
-	cout << " Matriz creada con ID: " << selected_id << endl;
+	if(selected_id > 0){
+	  cout << " Matriz creada con ID: " << selected_id << endl;
+	} else {
+	  cerr << "Matriz no creada";
+	}
 	cout << " Pulse enter para continuar...";
 	cin.get();
 	//mMatrix.Matrix<float>::~Matrix();    

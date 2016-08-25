@@ -1,8 +1,8 @@
 #include "matrix.hpp"
 
 template <typename T>
-Matrix<T>::Matrix(int cols = 1, int rows = 1, int ownerID=1, string name="empty")
-  : mCols(cols), mRows(rows),mOwnerID(ownerID), mName(name)
+Matrix<T>::Matrix(int rows = 1, int cols = 1, int ownerID=1, string name="empty")
+  : mRows(rows), mCols(cols),mOwnerID(ownerID), mName(name)
 {
 	mGrid = new T [mCols * mRows];
 }
@@ -14,9 +14,15 @@ Matrix<T>::~Matrix(void)
 }
 
 template <typename T>
-T& Matrix<T>::operator ()(int column, int row, int ownerID, string name)
+T& Matrix<T>::operator ()( int row, int column)
 {
-	return mGrid[column * mCols + row];
+  return mGrid[(row * mCols) + column];
+}
+
+template <typename T>
+float Matrix<T>::assign (int row, int column, float value)
+{
+  mGrid[(row * mCols) + column] = value;
 }
 
 template <typename T>
