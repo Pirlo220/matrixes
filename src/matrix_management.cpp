@@ -6,6 +6,14 @@
 #include "matrix_DAO.cpp"
 #include <LibConstants.hpp>
 #include <cstdio>
+#include <fstream>
+
+void save_log(){
+  std::ofstream outfile;
+
+  outfile.open("test.txt", std::ios_base::app);
+  outfile << "Data\n"; 
+}
 
 int run_option(int option, int matrix_id){
   int selected_id = matrix_id;
@@ -51,6 +59,7 @@ int run_option(int option, int matrix_id){
 	} else {
 	  cerr << "Matriz no creada";
 	}
+	save_log();
 	cout << " Pulse enter para continuar...";
 	cin.get();
 	//mMatrix.Matrix<float>::~Matrix();    

@@ -37,22 +37,7 @@ int main() {
       matrix_id = run_app(matrix_id);
     } while(matrix_id != AppValues::EXIT_CODE);    
   }
-		//do{
-			//cin.clear();
-			//std::cout << "\nPlease try to overflow the buffer: \n";
-			//float f;
-			//f = 18446744073709551610u;
-			//std::cin >> f; // let user put his name
-			//cout.setf(ios::fixed);
-			
-			/*
-			//executes loop if the input fails (e.g., no characters were read)
-		while (std::cout << "Enter a number" && !(std::cin >> num)) {
-    std::cin.clear(); //clear bad input flag
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //discard input
-    std::cout << "Invalid input; please re-enter.\n";
-	}
-	*/
+
 	/*
 	int row = 1;
 	int col = 1;
