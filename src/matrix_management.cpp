@@ -53,10 +53,12 @@ int run_option(int option, int matrix_id){
 	cin.ignore(1024, '\n');
 	if(selected_id > 0){
 	  cout << " Matriz creada con ID: " << selected_id << endl;
+	  log("Created Matrix: " + id);
 	} else {
 	  cerr << "Matriz no creada";
+	  log_error("No Matriz Creada");
 	}
-	log("anything");
+	
 	cout << " Pulse enter para continuar...";
 	cin.get();
 	//mMatrix.Matrix<float>::~Matrix();    
