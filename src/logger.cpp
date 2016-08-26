@@ -1,6 +1,11 @@
 #include <logger.hpp>
 #include <sys/stat.h>
 #include <cstring>
+#include <sodium.h>
+
+string get_file_content(string url);
+string get_content_hash(string data);
+
 int mkpath(std::string s,mode_t mode)
 {
   size_t pre=0,pos;
@@ -30,6 +35,7 @@ void log(string data){
   mkdirretval=mkpath("./logs", 0755);
   string date =  UtilsLibrary::get_current_date_as_string();
   string url = "./logs/" + date;
+  get_file_content(url);
   outfile.open(url.c_str(), std::ios_base::app);
   if(outfile.is_open()){
     string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
@@ -45,3 +51,29 @@ void log_error(string data){
   string error = "ERROR :: " + data;
   log(error);
 }
+
+string get_content_hash(string data){
+  unsigned char hash[crypto_generichash_BYTES];
+  const unsigned char *data_p = new unsigned char[data.length()+1];
+
+  crypto_generichash(hash, sizeof hash, ((const unsigned char *)data), strlen(data_p), NULL, 0);
+  string t(hash, 0, sizeof hash);
+  return t;
+}
+
+string get_file_content(string url){
+  string line;
+  ifstream myfile (url);
+  if (myfile.is_open())
+    {
+      while ( getline (myfile,line) )
+	{
+	  cout << line << '\n';
+	}
+      myfile.close();
+    }
+
+  else cout << "Unable to open file"; 
+}
+
+
