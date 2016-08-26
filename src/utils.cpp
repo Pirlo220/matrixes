@@ -4,6 +4,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <LibConstants.hpp>
+#include <ctime>
 
 namespace UtilsLibrary
 {
@@ -48,5 +49,18 @@ namespace UtilsLibrary
     }
     cout <<endl;
     return user_value;
+  }
+
+  string get_current_date_as_string(){
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,80,"%d_%m_%Y",timeinfo);
+    std::string str(buffer);
+    return str;
   }
 }

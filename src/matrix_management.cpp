@@ -7,41 +7,10 @@
 #include <LibConstants.hpp>
 #include <cstdio>
 #include <fstream>
-
 #include <iostream>
 #include <string>
-#include <sys/stat.h>
 #include <errno.h>
-int mkpath(std::string s,mode_t mode)
-{
-    size_t pre=0,pos;
-    std::string dir;
-    int mdret;
-
-    if(s[s.size()-1]!='/'){
-        // force trailing / so we can handle everything in loop
-        s+='/';
-    }
-
-    while((pos=s.find_first_of('/',pre))!=std::string::npos){
-        dir=s.substr(0,pos++);
-        pre=pos;
-        if(dir.size()==0) continue; // if leading / first time is 0 length
-        if((mdret=mkdir(dir.c_str(),mode)) && errno!=EEXIST){
-            return mdret;
-        }
-    }
-    return mdret;
-}
-
-void save_log(){
-  std::ofstream outfile;
-  int mkdirretval;
-  mkdirretval=mkpath("./logs",0755);
-  
-  outfile.open("./logs/test.txt", std::ios_base::app);
-  outfile << "Data\n"; 
-}
+#include "logger.cpp"
 
 int run_option(int option, int matrix_id){
   int selected_id = matrix_id;
@@ -87,7 +56,7 @@ int run_option(int option, int matrix_id){
 	} else {
 	  cerr << "Matriz no creada";
 	}
-	save_log();
+	log("anything");
 	cout << " Pulse enter para continuar...";
 	cin.get();
 	//mMatrix.Matrix<float>::~Matrix();    
