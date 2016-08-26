@@ -38,6 +38,10 @@ void log(string data){
     outfile.close();
   } else {
     cerr << "Error al escribir en log" << endl;
-  }
-  
+  }  
+}
+
+void log_error(string data){
+  string error = "ERROR :: " + data;
+  log(error);
 }
