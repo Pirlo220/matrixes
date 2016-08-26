@@ -32,7 +32,9 @@ void log(string data){
   string url = "./logs/" + date;
   outfile.open(url.c_str(), std::ios_base::app);
   if(outfile.is_open()){
-    outfile << data << endl; 
+    string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
+    info += data ;
+    outfile << info << endl; 
     outfile.close();
   } else {
     cerr << "Error al escribir en log" << endl;
