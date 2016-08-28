@@ -95,21 +95,17 @@ void insert_log_hash(string hash, string log_name){
 }
 
 void log(string data){
-  cout << "logging data " << data << endl;
   std::ofstream outfile;
   int mkdirretval;
   mkdirretval=mkpath("./logs", 0755);
   string date =  UtilsLibrary::get_current_date_as_string();
-  string url = "./logs/" + date;
-  outfile.open(url.c_str(), std::ios_base::app);
+  string file_url = "./logs/" + date;
+  outfile.open(file_url.c_str(), std::ios_base::app);
  
-  //cout << "hashed content" << get_content_hash(content);
   if(outfile.is_open()){
-    
-
-    string previous_hash = get_log_hash(url);
+    string previous_hash = get_log_hash(file_url);
     cout << "Existing hash " << previous_hash << endl;
-    string original_content = get_file_content(url);
+    string original_content = get_file_content(file_url);
     
     bool modified_log = previous_hash != get_content_hash(original_content);
     
@@ -117,22 +113,17 @@ void log(string data){
       cerr << "LOG FILE HAS BEEN MODIFIED";
     } else {
       string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
-      info += data ;
-    
-      cout << "loggin info " << info << endl;
+      info += data;
       outfile << info << endl; 
       outfile.close();
     
       if(previous_hash  == "-1"){
-	insert_log_hash(get_content_hash(get_file_content(url)), url);    
+	insert_log_hash(get_content_hash(get_file_content(file_url)), file_url);    
       } else { 
-     
-      
 	if(modified_log){
 	  cerr << "LOG FILE HAS BEEN MODIFIED";
 	} else {	
-	  //cout << "content with infor attached " << content;
-	  update_log_hash(get_content_hash(get_file_content(url)), url);
+	  update_log_hash(get_content_hash(get_file_content(file_url)), file_url);
 	}
       }
     }
