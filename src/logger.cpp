@@ -120,11 +120,7 @@ void log(string data){
       if(previous_hash  == "-1"){
 	insert_log_hash(get_content_hash(get_file_content(file_url)), file_url);    
       } else { 
-	if(modified_log){
-	  cerr << "LOG FILE HAS BEEN MODIFIED";
-	} else {	
-	  update_log_hash(get_content_hash(get_file_content(file_url)), file_url);
-	}
+	update_log_hash(get_content_hash(get_file_content(file_url)), file_url);
       }
     }
   } else {
