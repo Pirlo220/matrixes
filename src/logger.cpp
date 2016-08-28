@@ -134,23 +134,13 @@ void log_error(string data){
 }
 
 string get_content_hash(string data){
-  //cout << "Dentro de get content"<< endl;
-  //cout << data.length()+1 << endl;
   unsigned char hash[crypto_generichash_BYTES];
   const unsigned char *data_p = new unsigned char[data.length()+1];
  
   data_p = (const unsigned char *)data.c_str();
-  // data_p[data.size()] = '\0'; // don't forget the terminating 0
-
-  
-  cout << endl;
-  cout << "TAMAN " << data.length() << endl;
-
-  // crypto_generichash(hash, sizeof hash, data_p, sizeof data_p, NULL, 0);
   crypto_generichash(hash, sizeof hash,
                    data_p, data.length()+1,
                    NULL, 0);
-
   ostringstream convert; 
   for (size_t j = 0; j <sizeof hash; ++j) {
     convert << ((unsigned int) hash[j]);
