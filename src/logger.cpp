@@ -106,34 +106,36 @@ void log(string data){
   //cout << "hashed content" << get_content_hash(content);
   if(outfile.is_open()){
     
-    string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
-    info += data ;
-    
-    cout << "loggin info " << info << endl;
-    outfile << info << endl; 
-    outfile.close();
+
     string previous_hash = get_log_hash(url);
     cout << "Existing hash " << previous_hash << endl;
-    if(previous_hash  == "-1"){
-      insert_log_hash(get_content_hash(info), url);    
-    } else { 
-      string content = get_file_content(url);
-      string hashed_content = get_content_hash(content);
+    string original_content = get_file_content(url);
     
-      cout << "hashed previous content UNO " << hashed_content << endl;
+    bool modified_log = previous_hash != get_content_hash(original_content);
     
-
-
-      if(previous_hash != hashed_content){
-	cerr << "LOG FILE HAS BEEN MODIFIED";
-      } else {
-	
-	content += info;
-	//cout << "content with infor attached " << content;
-	update_log_hash(get_content_hash(content), url);
-      }      
+    if(modified_log && previous_hash != "-1"){
+      cerr << "LOG FILE HAS BEEN MODIFIED";
+    } else {
+      string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
+      info += data ;
+    
+      cout << "loggin info " << info << endl;
+      outfile << info << endl; 
+      outfile.close();
+    
+      if(previous_hash  == "-1"){
+	insert_log_hash(get_content_hash(get_file_content(url)), url);    
+      } else { 
+     
+      
+	if(modified_log){
+	  cerr << "LOG FILE HAS BEEN MODIFIED";
+	} else {	
+	  //cout << "content with infor attached " << content;
+	  update_log_hash(get_content_hash(get_file_content(url)), url);
+	}
+      }
     }
-    
   } else {
     cerr << "Error al escribir en log" << endl;
   }  
