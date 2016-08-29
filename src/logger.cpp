@@ -6,28 +6,16 @@
 #include <pqxx/pqxx>
 #include <string>
 #include <fstream>
-//string get_file_content(string url);
-string get_content_hash(string data);
+#include "disk_usage.cpp"
+
 #define MAXLEN 64
-#define MESSAGE ((const unsigned char *) "Arbitrary data to hash")
-#define MESSAGE_LEN 22
 
 using namespace std;
 
-string get_file_content(string url){
-  /* string line;
-  std::ifstream myfile (url.c_str());
-  if (myfile.is_open())
-    {
-      while ( getline (myfile,line) )
-	{
-	  cout << line << '\n';
-	}
-      myfile.close();
-    }
 
-  else cout << "Unable to open file"; 
-  */
+string get_content_hash(string data);
+
+string get_file_content(string url){ 
   std::ifstream ifs(url.c_str());
   std::string content( (std::istreambuf_iterator<char>(ifs) ),
 		      (std::istreambuf_iterator<char>()    ) );
@@ -94,38 +82,38 @@ void insert_log_hash(string hash, string log_name){
   txn.commit();  
 }
 
-void log(string data){
+void log(string data){ 
   std::ofstream outfile;
-  int mkdirretval;
-  mkdirretval=mkpath("./logs", 0755);
-  string date =  UtilsLibrary::get_current_date_as_string();
-  string file_url = "./logs/" + date;
-  outfile.open(file_url.c_str(), std::ios_base::app);
+  int mkdirretval = mkpath("./logs", 0755);
+  if(DiskUsage::is_disk_space_available("./logs/")){ 
+    string date =  UtilsLibrary::get_current_date_as_string();
+    string file_url = "./logs/" + date;
+    outfile.open(file_url.c_str(), std::ios_base::app);
  
-  if(outfile.is_open()){
-    string previous_hash = get_log_hash(file_url);
-    cout << "Existing hash " << previous_hash << endl;
-    string original_content = get_file_content(file_url);
+    if(outfile.is_open()){
+      string previous_hash = get_log_hash(file_url);    
+      string original_content = get_file_content(file_url);
     
-    bool modified_log = previous_hash != get_content_hash(original_content);
+      bool modified_log = previous_hash != get_content_hash(original_content);
     
-    if(modified_log && previous_hash != "-1"){
-      cerr << "LOG FILE HAS BEEN MODIFIED";
-    } else {
-      string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
-      info += data;
-      outfile << info << endl; 
-      outfile.close();
+      if(modified_log && previous_hash != "-1"){
+	cerr << "Fallo de seguridad. Integridad de fichero comprometida.";
+      } else {
+	string info = "[" + UtilsLibrary::get_current_time_as_string() + "] :: " ;
+	info += data;
+	outfile << info << endl; 
+	outfile.close();
     
-      if(previous_hash  == "-1"){
-	insert_log_hash(get_content_hash(get_file_content(file_url)), file_url);    
-      } else { 
-	update_log_hash(get_content_hash(get_file_content(file_url)), file_url);
+	if(previous_hash  == "-1"){
+	  insert_log_hash(get_content_hash(get_file_content(file_url)), file_url);    
+	} else { 
+	  update_log_hash(get_content_hash(get_file_content(file_url)), file_url);
+	}
       }
-    }
-  } else {
-    cerr << "Error al escribir en log" << endl;
-  }  
+    } else {
+      cerr << "No se ha podido escribir en el log" << endl;
+    }  
+  }
 }
 
 void log_error(string data){

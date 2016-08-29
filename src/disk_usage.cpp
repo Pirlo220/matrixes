@@ -1,38 +1,27 @@
-#include <stdio.h>
-#include <windows.h>
-#include <iostream>
-#include <cmath>
+#include <sys/statvfs.h>
 
-using namespace std;
+#define MPATH "./" 
+namespace DiskUsage {
+ long long GetAvailableSpace(const char* path){
+    struct statvfs stat;
+    if (statvfs(MPATH, &stat) != 0) {
+      // error happens, just quits here
+      return -1;
+    }
+    return stat.f_bsize * stat.f_bavail;
+  }
+ 
 
-int main() {
-	//TODO: Make this file an external library in order to manage the login system
-    ULARGE_INTEGER p1, p2, p3;
-    GetDiskFreeSpaceEx(".", &p1, &p2, &p3);
-    printf("%llu %llu %llu\n", p1, p2, p3);
-    
-    long double byte;
-    long double kilobyte;
-    long double megabyte;
-    long double gigabyte;
-	    
-    kilobyte = p1.QuadPart / 1024;
-    megabyte = kilobyte / 1024;
-    gigabyte = megabyte /  1024;
-    
-    cout <<  " lpFreeBytesAvailable Equal to  " << gigabyte << " Gigabyte's "<<"\n";
-    
-    kilobyte = p2.QuadPart / 1024;
-    megabyte = kilobyte / 1024;
-    gigabyte = megabyte /  1024;
+ bool is_disk_space_available(string path){
+    long long space = GetAvailableSpace(path.c_str());
+    if ( space < 512000) {
+      // error happens, just quits here
+      std::cout << std::endl;
+      std::cerr << "ERROR: failed to get available space" << std::endl;
+      return false;
+    }
+    return true;
+  }
 
-    
-    cout <<  " lpTotalNumberOfBytes Equal to  " << gigabyte << " Gigabyte's "<<"\n";
-    
-    kilobyte = p3.QuadPart / 1024;
-    megabyte = kilobyte / 1024;
-    gigabyte = megabyte /  1024;
-    cout <<  " lpTotalNumberOfFreeBytes Equal to  " << gigabyte << " Gigabyte's "<<"\n";
-    system("pause");
-    return 0;
+ 
 }
