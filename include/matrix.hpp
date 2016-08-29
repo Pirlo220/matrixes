@@ -1,5 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
+#include <vector>
 
 template <typename T>
 class Matrix
@@ -9,7 +10,9 @@ private:
   int mRows;
   string mName;
   int mOwnerID;
-  T *mGrid;
+  int mID;
+  //T mGrid[mRows * mCols];
+  std::vector<T> mGrid; 
   Matrix();
 
 public:
@@ -19,8 +22,12 @@ public:
   float assign (int row, int column, float value);
   int getCols();
   int getRows();
+  int getID();
+  void setID(int id);
   string getName();
   int getOwnerID();
+  //T *getContent();
+  //void setContent(T *content);
 };
 
 #endif 
