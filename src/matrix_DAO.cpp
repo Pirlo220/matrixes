@@ -1,10 +1,6 @@
 #include <matrix_DAO.hpp>
 #include <pqxx/pqxx>
 #include <iostream>
-/*
-void save_matrix_content(Matrix<float> *matrix){
- 
-}*/
 
 void save_matrix_content(pqxx::transaction_base &txn, int id_matrix, int col_index, int row_index, float value){
   txn.exec(
