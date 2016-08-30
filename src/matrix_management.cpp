@@ -11,6 +11,9 @@
 #include <string>
 #include <errno.h>
 #include "logger.cpp"
+#include <iomanip>
+
+using namespace std;
 
 namespace Management{
   
@@ -29,6 +32,7 @@ namespace Management{
 	    Matrix<float> matrix = get_matrix_by_ID(matrix_id);
 	    for(int r = 0; r < matrix.getRows();r++){
 	      for(int c = 0; c <  matrix.getCols();c++){
+		cout << fixed << setprecision(2);
 		  cout << matrix.operator()(r,c) << " | " ;
 		}
 		    cout << endl;
