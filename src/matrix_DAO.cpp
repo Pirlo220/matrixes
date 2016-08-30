@@ -42,7 +42,7 @@ int save_matrix(Matrix<float> *matrix){
   return id;
 }
 
-Matrix<float> get_matrix_by_ID(int matrix_id){
+Matrix<float> get_matrix_by_ID(int matrix_id, int user_id){
   try
     {
       pqxx::connection c("dbname=matrixes user=matrixuser");
@@ -51,7 +51,8 @@ Matrix<float> get_matrix_by_ID(int matrix_id){
       pqxx::result r = txn.exec(
 				"SELECT number_rows, number_cols, owner_id, name, id " 
 				"FROM matrixes " 			   
-				"WHERE id=" + txn.quote(matrix_id));
+				"WHERE id=" + txn.quote(matrix_id) + 
+				" AND owner_id = " + txn.quote(user_id));
  
       if(r.size() == 1){
 	Matrix<float> mMatrix(r[0][0].as<int>(),

@@ -27,7 +27,7 @@ namespace Management{
 	    cout << "Primero debes seleccionar una matriz" << endl;
 	  } else {
 	    cout << "  Mostrando contenido de matriz con id: " << matrix_id << endl;
-	    Matrix<float> matrix = get_matrix_by_ID(matrix_id);
+	    Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
 	    for(int r = 0; r < matrix.getRows();r++){
 	      cout << "  |";
 	      for(int c = 0; c <  matrix.getCols();c++){
@@ -118,17 +118,28 @@ namespace Management{
 	    //mMatrix.Matrix<float>::~Matrix();    
 	  }
 	  break;  
-  
-	case 6:
-	  {
-	    selected_id =  AppValues::EXIT_CODE;
-	  }
-	  break;
+      case 4: {
+	int id = atoi(UtilsLibrary::get_user_input(" Introduce el id de la matriz que quieres seleccionar: ", false, 5).c_str());
+	Matrix<float> matrix = get_matrix_by_ID(id, user_id);
+	if(matrix.getID() == id){
+	  selected_id = id;
+	} else {
+	  cerr << "No ha sido posible seleccionar esa matriz" << endl;
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get();
 	}
       }
-      return selected_id;
+	break;
+      case 6:
+	{
+	  selected_id =  AppValues::EXIT_CODE;
+	}
+	break;
+      }
     }
-
+    return selected_id;
+  }
+  
   
 
   int run_app(int matrix_id, int user_id){
