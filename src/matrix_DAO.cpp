@@ -77,22 +77,20 @@ Matrix<float> get_matrix_by_ID(int matrix_id){
 }
 
 std::vector<Matrix<float> > get_matrixes(string nombre, int id, int owner_id){
-  cout << "id " << id << endl;
    pqxx::connection c("dbname=matrixes user=matrixuser");
    pqxx::work txn(c);
    string params = " AND owner_id = " +  txn.quote(owner_id);
    if(strlen(nombre.c_str()) > 0){
-     params += " AND nombre = " + txn.quote(nombre);
+     params += " AND name like " + txn.quote('%' + nombre + '%');
    } else if (id > 0){
      params += " AND id = " + txn.quote(id);
    }
-   cout << "Params " << params << endl;
    pqxx::result r = txn.exec(
 			     "SELECT number_rows, number_cols, owner_id, name, id " 
 			     "FROM matrixes " 			   
 			     "WHERE 0 = 0" + params);
    std::vector<Matrix<float> > matrixes(r.size());
-   cout << "size " << matrixes.size() << endl;
+
    int pos = 0;
    for ( pqxx::result::const_iterator row = r.begin(); row != r.end();++row){
      Matrix<float> mMatrix(row[0].as<int>(),
@@ -100,7 +98,7 @@ std::vector<Matrix<float> > get_matrixes(string nombre, int id, int owner_id){
 			   row[2].as<int>(),
 			   row[3].as<string>());
      mMatrix.setID(row[4].as<int>());
-     cout << "Guardando en pos " << pos << endl;
+
      matrixes.at(pos)=  mMatrix;
      pos = pos + 1;
    }

@@ -15,7 +15,7 @@
 
 namespace Management{
   
-  int run_option(int option, int matrix_id){
+  int run_option(int option, int matrix_id, int user_id){
     int selected_id = matrix_id;
     if(matrix_id <= 0 && option > 6){
       cout << "Opción no válida." << endl;
@@ -60,12 +60,19 @@ namespace Management{
 	    if(opt == 1){
 	      cin.ignore(1024, '\n');
 	      id_a_buscar = atoi(UtilsLibrary::get_user_input(" Introduce identificador a buscar: ", false, 5).c_str());
-	    } else {
+	    } else if(opt == 2){
 	      cin.ignore(1024, '\n');
 	      nombre_a_buscar = UtilsLibrary::get_user_input(" Introduce cadena a buscar: ", false, 20);
+	    } else {
+	      break;
 	    }
 	    	    
-	    vector<Matrix<float> > result = get_matrixes(nombre_a_buscar, id_a_buscar, 1);
+	    vector<Matrix<float> > result = get_matrixes(nombre_a_buscar, id_a_buscar, user_id);
+
+	    for(int i = 0; i < result.size(); i++) {
+	      Matrix<float> n = result.at(i);
+	      std::cout << "Matriz con ID: " << n.getID() << " Nombre: "<< n.getName() << endl;
+	    }
 	   
 	    cout << "Tamaño resultado " << result.size();
 
@@ -91,7 +98,7 @@ namespace Management{
 	      cin.clear();
 	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	    }
-	    Matrix<float> mMatrix(rows, cols, 1, name);
+	    Matrix<float> mMatrix(rows, cols, user_id, name);
 	    Matrix<float> *c = &mMatrix;
 	    selected_id =  save_matrix(c);
 	    cin.ignore(1024, '\n');
@@ -124,11 +131,11 @@ namespace Management{
 
   
 
-    int run_app(int matrix_id){
+  int run_app(int matrix_id, int user_id){
       system("clear");
       print_menu(matrix_id);
       int selected_option = -1;
       selected_option = atoi(UtilsLibrary::get_user_input(" INTRODUCE UNA OPCIÓN: ", false, 2).c_str());
-      return run_option(selected_option, matrix_id);
+      return run_option(selected_option, matrix_id, user_id);
     }
   }
