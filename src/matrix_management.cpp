@@ -13,8 +13,6 @@
 #include "logger.cpp"
 #include <iomanip>
 
-using namespace std;
-
 namespace Management{
   
   int run_option(int option, int matrix_id){
@@ -31,9 +29,10 @@ namespace Management{
 	    cout << "  Mostrando contenido de matriz con id: " << matrix_id << endl;
 	    Matrix<float> matrix = get_matrix_by_ID(matrix_id);
 	    for(int r = 0; r < matrix.getRows();r++){
+	      cout << "  |";
 	      for(int c = 0; c <  matrix.getCols();c++){
 		cout << fixed << setprecision(2);
-		  cout << matrix.operator()(r,c) << " | " ;
+		cout <<  matrix.operator()(r,c) << " | " ;
 		}
 		    cout << endl;
 		  }
@@ -45,8 +44,33 @@ namespace Management{
 	  break;
   
 	case 2 : 
-	  {
-	    cout << "option 2 selected";
+	  { 
+	    cout << "  Buscar por:" << endl;
+	    cout << "[1] Identificador" << endl;
+	    cout << "[2] Nombre" << endl;
+	    cout << "[0] Volver menú" << endl;
+	    int opt = 0;
+	    while(!(cin >> opt) || (opt > 2 && opt < 0)){
+	      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	      cin.clear();
+	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	    }
+	    string nombre_a_buscar = "";
+	    int id_a_buscar = 0;
+	    if(opt == 1){
+	      cin.ignore(1024, '\n');
+	      id_a_buscar = atoi(UtilsLibrary::get_user_input(" Introduce identificador a buscar: ", false, 5).c_str());
+	    } else {
+	      cin.ignore(1024, '\n');
+	      nombre_a_buscar = UtilsLibrary::get_user_input(" Introduce cadena a buscar: ", false, 20);
+	    }
+	    	    
+	    vector<Matrix<float> > result = get_matrixes(nombre_a_buscar, id_a_buscar, 1);
+	   
+	    cout << "Tamaño resultado " << result.size();
+
+	    cout<< endl << " Pulse enter para continuar...";
+	    cin.get();
 	  }
 	  break;
   

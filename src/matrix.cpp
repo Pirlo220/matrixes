@@ -5,11 +5,10 @@ Matrix<T>::Matrix(int rows = 1, int cols = 1, int ownerID=1, string name="empty"
   : mRows(rows), mCols(cols),mOwnerID(ownerID), mName(name)
 {
   mGrid.reserve(mCols * mRows);
-  std::vector<float> v(mCols * mRows);
+  std::vector<T> v(mCols * mRows);
   mGrid = v;
   mID = -1;
 }
-
 
 template <typename T>
 T& Matrix<T>::operator ()( int row, int column)

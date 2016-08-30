@@ -13,9 +13,9 @@ private:
   int mID;
   //T mGrid[mRows * mCols];
   std::vector<T> mGrid; 
-  Matrix();
 
 public:
+ 
   Matrix(int rows, int cols, int ownerID, string name);
   ~Matrix(void);
   T& operator ()(int row, int column);
