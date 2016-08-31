@@ -133,6 +133,14 @@ namespace Management{
 	}
       }
 	break;
+      case 5 :
+	{
+	  string nombre_log = UtilsLibrary::get_user_input(" Introduce nombre del log: ", false, 10);
+	  print_logger_content(nombre_log);
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get();
+	}
+	break;
       case 6:
 	{
 	  selected_id =  AppValues::EXIT_CODE;
