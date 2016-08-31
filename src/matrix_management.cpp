@@ -141,20 +141,70 @@ namespace Management{
 	break;
       case 7:
 	{
-	  int col = atoi(UtilsLibrary::get_user_input(" Introduce columna: ", false, 2).c_str());
-	  //cin.ignore(1024, '\n');
-	  int row = atoi(UtilsLibrary::get_user_input(" Introduce fila: ", false, 2).c_str());
-	  //cin.ignore(1024, '\n');
-	  int value = atoi(UtilsLibrary::get_user_input(" Introduce nuevo valor: ", false, 2).c_str());
-	 
+	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
+	  cout << " Introduce Número de Columna: ";
+	  int col = 0;    
+	  while(!(cin >> col) || (col > matrix.getCols() - 1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  
+	  cout << " Introduce Número de Fila: ";
+	  int row = 0;
+	  while(!(cin >> row) || (row > matrix.getRows() - 1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+
+	  cout << " Introduce valor: ";
+	  int value = 0;
+	  while(!(cin >> value)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	 	  
 	  bool resultado = update_matrix_content(selected_id, col, row, value);
 	  if(!resultado){
 	    cerr << "Error en la actualización" << endl;
 	  }
-	  cout<< endl << " Pulse enter para continuar...";
-	  //cin.ignore(1024, '\n');
+	  cin.ignore(1024, '\n');
+	  cout<< endl << " Pulse enter para continuar...";	  
 	  cin.get();
 	}
+	break;
+      case 9: 
+	{	 
+	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
+	  cout << " Introduce Número de Fila a modificar: ";
+	  int row = 0;
+	  while(!(cin >> row) || (row > matrix.getRows() - 1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  for(int pos = 0; pos < matrix.getCols(); pos++){
+	    std::ostringstream stream;
+	    stream << " -->  Introduce nuevo valor en posición " << pos << ": ";
+	    cout << stream.str();
+	    int value = 0;
+	    while(!(cin >> value)){
+	      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	      cin.clear();
+	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	    }
+	    bool resultado = update_matrix_content(selected_id, pos, row, value);
+	    if(!resultado){
+	      cerr << "Error en la actualización" << endl;
+	    }
+	  }
+	  cin.ignore(1024, '\n');	  
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get();
+	}
+	break;	
       }
     }
     return selected_id;
