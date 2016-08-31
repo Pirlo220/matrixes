@@ -159,7 +159,7 @@ namespace Management{
 	  }
 
 	  cout << " Introduce valor: ";
-	  int value = 0;
+	  float value = 0;
 	  while(!(cin >> value)){
 	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
 	    cin.clear();
@@ -189,13 +189,43 @@ namespace Management{
 	    std::ostringstream stream;
 	    stream << " -->  Introduce nuevo valor en posición " << pos << ": ";
 	    cout << stream.str();
-	    int value = 0;
+	    float value = 0;
 	    while(!(cin >> value)){
 	      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
 	      cin.clear();
 	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	    }
 	    bool resultado = update_matrix_content(selected_id, pos, row, value);
+	    if(!resultado){
+	      cerr << "Error en la actualización" << endl;
+	    }
+	  }
+	  cin.ignore(1024, '\n');	  
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get();
+	}
+	break;
+      case 13: 
+	{	 
+	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
+	  cout << " Introduce Número de columna a modificar: ";
+	  int col = 0;
+	  while(!(cin >> col) || (col > matrix.getCols() - 1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  for(int pos = 0; pos < matrix.getRows(); pos++){
+	    std::ostringstream stream;
+	    stream << " -->  Introduce nuevo valor en posición " << pos << ": ";
+	    cout << stream.str();
+	    float value = 0;
+	    while(!(cin >> value)){
+	      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	      cin.clear();
+	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	    }
+	    bool resultado = update_matrix_content(selected_id, col, pos, value);
 	    if(!resultado){
 	      cerr << "Error en la actualización" << endl;
 	    }
