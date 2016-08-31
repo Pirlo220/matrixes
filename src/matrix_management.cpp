@@ -21,6 +21,10 @@ namespace Management{
       cout << "Opción no válida." << endl;
     } else {  
       switch(option){
+      case 0:{
+	// Do nothing
+      }
+	break;
       case 1: 
 	{
 	  if(matrix_id <= 0){
