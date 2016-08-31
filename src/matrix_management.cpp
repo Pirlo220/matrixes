@@ -274,6 +274,7 @@ namespace Management{
 	  for(int r = 0; r < matrix.getRows();r++){
 	    cout << "  |";
 	    for(int c = 0; c <  matrix.getCols();c++){
+	      update_matrix_content(selected_id, c, r,  matrix.operator()(r,c));
 	      cout << fixed << setprecision(2);
 	      cout <<  matrix.operator()(r,c) << " | " ;
 	    }
