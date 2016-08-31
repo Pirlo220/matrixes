@@ -63,3 +63,9 @@ void Matrix<T>::setID(int id)
 {
   mID = id;
 }
+
+template <typename T>
+void Matrix<T>::sort()
+{
+  std::sort (mGrid.begin(), mGrid.begin() + mCols * mRows);
+}

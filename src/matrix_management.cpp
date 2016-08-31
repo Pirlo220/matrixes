@@ -12,6 +12,7 @@
 #include <errno.h>
 #include "logger.cpp"
 #include <iomanip>
+#include <algorithm>
 
 namespace Management{
   
@@ -265,8 +266,24 @@ namespace Management{
 	  cout<< endl << " Pulse enter para continuar...";
 	  cin.get();
 	}
-	break;	
-      }
+	break; 
+      case 14:
+	{
+	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
+	  matrix.sort();
+	  for(int r = 0; r < matrix.getRows();r++){
+	    cout << "  |";
+	    for(int c = 0; c <  matrix.getCols();c++){
+	      cout << fixed << setprecision(2);
+	      cout <<  matrix.operator()(r,c) << " | " ;
+	    }
+	    cout << endl;
+	  }
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get(); 
+	}
+	break;
+      }    
     }
     return selected_id;
   }

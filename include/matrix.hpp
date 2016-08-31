@@ -1,7 +1,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 #include <vector>
-
+#include <algorithm>
 template <typename T>
 class Matrix
 {
@@ -28,6 +28,7 @@ public:
   int getOwnerID();
   //T *getContent();
   //void setContent(T *content);
+  void sort();
 };
 
 #endif 
