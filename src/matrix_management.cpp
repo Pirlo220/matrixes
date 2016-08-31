@@ -139,6 +139,22 @@ namespace Management{
 	  selected_id =  AppValues::EXIT_CODE;
 	}
 	break;
+      case 7:
+	{
+	  int col = atoi(UtilsLibrary::get_user_input(" Introduce columna: ", false, 2).c_str());
+	  //cin.ignore(1024, '\n');
+	  int row = atoi(UtilsLibrary::get_user_input(" Introduce fila: ", false, 2).c_str());
+	  //cin.ignore(1024, '\n');
+	  int value = atoi(UtilsLibrary::get_user_input(" Introduce nuevo valor: ", false, 2).c_str());
+	 
+	  bool resultado = update_matrix_content(selected_id, col, row, value);
+	  if(!resultado){
+	    cerr << "Error en la actualización" << endl;
+	  }
+	  cout<< endl << " Pulse enter para continuar...";
+	  //cin.ignore(1024, '\n');
+	  cin.get();
+	}
       }
     }
     return selected_id;

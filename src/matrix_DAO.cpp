@@ -13,6 +13,31 @@ void save_matrix_content(pqxx::transaction_base &txn, int id_matrix, int col_ind
 	   ")");
 }
 
+void save_matrix_content(int id_matrix, int col_index, int row_index, float value){
+  pqxx::connection c("dbname=matrixes user=matrixuser");
+  pqxx::work txn(c); 
+  save_matrix_content(txn, id_matrix, col_index, row_index, value);
+  txn.commit();
+}
+
+bool update_matrix_content(int id_matrix, int col_index, int row_index, float value){
+  try{
+    pqxx::connection c("dbname=matrixes user=matrixuser");
+    pqxx::work txn(c);
+    txn.exec(
+	     "UPDATE matrix_content SET value = " + txn.quote(value) +
+	     "WHERE id_matrix = " + txn.quote(id_matrix) +
+	     " AND col_index = " + txn.quote(col_index) + 
+	     " AND row_index = " + txn.quote(row_index));
+    
+    txn.commit();
+    return true;
+  } catch (const std::exception &e) {
+    std::cerr << e.what() << std::endl;
+    return false;
+  }
+}
+
 int save_matrix(Matrix<float> *matrix){
   int id = -1;
   try{
