@@ -26,3 +26,5 @@ To compile:
 and then 
 
 >./build/main
+
+![ScreenShot](https://cloud.githubusercontent.com/assets/3706122/18183600/6a662d3c-7095-11e6-91ba-923fd788ef34.png)
