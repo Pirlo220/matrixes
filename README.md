@@ -27,8 +27,10 @@ and then
 
 >./build/main
 
-Login Screen:
+Login Screen:<br/>
+
 ![ScreenShot](https://cloud.githubusercontent.com/assets/3706122/18183600/6a662d3c-7095-11e6-91ba-923fd788ef34.png)
 
-Initial menu:
+Initial menu:<br/>
+
 ![ScreenShot](https://cloud.githubusercontent.com/assets/3706122/18183691/ccf81082-7095-11e6-8680-1d94c1db6aa7.png)
