@@ -1,5 +1,6 @@
 #include <iostream>
 #include <LibConstants.hpp>
+using namespace std;
 void print_title(int matrix_id){
   if(matrix_id <= 0){
   cout << " ======================" << endl;
@@ -30,7 +31,7 @@ void print_menu(int matrix_id){
     cout << " " << MenuValuesConstants::SumaFila << ".- Mostrar Suma Fila" << endl;
     cout << " " << MenuValuesConstants::MediaFila << ".- Mostrar Media Fila" << endl;
     cout << " " << MenuValuesConstants::ModifColumna << ".- Modificar Columna" << endl;
-    cout << " " << MenuValuesConstants::IntColumnas << ".- Intercambiar Columnas" << endl;
+    cout << " " << MenuValuesConstants::IntColumnas << ".- Ordenar Matriz" << endl;
     cout << " " << MenuValuesConstants::OrdenarFila << ".- Ordenar Fila" << endl;
     cout << " " << MenuValuesConstants::OrdenarColumna << ".- Ordenar Columna" << endl;  
   }

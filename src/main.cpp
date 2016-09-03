@@ -14,11 +14,11 @@
 using namespace std;
 
 int main() {
-  bool granted = false;
+  int user_id = -1;
   do{
     try{
-      granted = login();
-      if(!granted){
+      user_id = login();
+      if(user_id == -1){
 	std::cout <<endl;
 	std::cout << "Wrong User or Password!. Try it again..."<<endl;
 	std::cout <<endl;
@@ -26,16 +26,16 @@ int main() {
     } catch(LockedUserException &e){
       std::cerr << "exception caught: " << e.message() << endl;    
     }
-  } while(granted == false);
+  } while(user_id == -1);
 
-  if(granted == true){
+  if(user_id > -1){
    
     int matrix_id = 0;
     bool mcontinue = true;
     do {
       cout << "run_app" << endl;
-      matrix_id = run_app(matrix_id);
-    } while(matrix_id != AppValues::EXIT_CODE);    
+      matrix_id = Management::run_app(matrix_id, user_id);
+    } while(matrix_id != AppValues::EXIT_CODE);
   }
 
 	/*

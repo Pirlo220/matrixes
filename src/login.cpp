@@ -60,10 +60,11 @@ int login(){
   return is_granted(user, password);
 }
 
-bool is_granted(std::string user_name, std::string user_passw){
+int is_granted(std::string user_name, std::string user_passw){
   if(is_user_locked(user_name)){
     throw LockedUserException();  
   }
+  int user_id = -1;
   bool result = false;
   pqxx::connection c("dbname=matrixes user=matrixuser");
   pqxx::work txn(c);
@@ -74,13 +75,16 @@ bool is_granted(std::string user_name, std::string user_passw){
 			    "WHERE name=" + txn.quote(user_name));
   if(r.size() == 1){
     result = is_valid_passw(user_name, user_passw,r[0][1].as<string>());
+    if(result){
+      user_id = r[0][0].as<int>();
+    }
   }
   if(!result) {
     increment_attempt_per_user(user_name);
   } else {
     reset_attempts(user_name);
   }
-  return result;
+  return user_id;
 }
 
 void reset_attempts(std::string user_name){

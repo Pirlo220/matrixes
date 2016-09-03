@@ -21,7 +21,5 @@ namespace DiskUsage {
       return false;
     }
     return true;
-  }
-
- 
+  } 
 }

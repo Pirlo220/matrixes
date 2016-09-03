@@ -8,11 +8,12 @@
 #include <fstream>
 #include "disk_usage.cpp"
 
+
 #define MAXLEN 64
 #define URL "./logs/"
 
-using namespace std;
-
+//using namespace std;
+using namespace UtilsLibrary;
 
 string get_content_hash(string data);
 
@@ -85,7 +86,7 @@ void log(string data){
   std::ofstream outfile;
   int mkdirretval = mkpath(URL, 0755);
   if(DiskUsage::is_disk_space_available(URL)){ 
-    string date =  UtilsLibrary::get_current_date_as_string();
+    string date = UtilsLibrary:: get_current_date_as_string();
     string file_url = URL + date;
     outfile.open(file_url.c_str(), std::ios_base::app);
  

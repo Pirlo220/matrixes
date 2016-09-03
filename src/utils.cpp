@@ -6,6 +6,8 @@
 #include <LibConstants.hpp>
 #include <ctime>
 
+using namespace std;
+
 namespace UtilsLibrary
 {
 
@@ -24,7 +26,7 @@ namespace UtilsLibrary
     return ch;
   }
 
-  string get_user_input(string message, bool maskared, int max_length){
+  string get_user_input(std::string message, bool maskared, int max_length){
     const char BACKSPACE=127;
     const char RETURN=10;
     unsigned char ch=0;
