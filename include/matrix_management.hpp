@@ -4,7 +4,9 @@
 #include <cstdlib>
 #include <string>
 
-bool run_option(int option, int matrix_id);
-bool run_app(int matrix_id);
+int run_option(int option, int matrix_id, int user_id);
+int run_app(int matrix_id, int user_id);
+
+int select_matrix(int matrix_id, int user_id);
 
 #endif

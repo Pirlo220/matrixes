@@ -13,9 +13,10 @@
 #include "logger.cpp"
 #include <iomanip>
 #include <algorithm>
+#include <math.h>
 
 namespace Management{
-  
+
   int run_option(int option, int matrix_id, int user_id){
     int selected_id = matrix_id;
     if(matrix_id <= 0 && option > 6){
@@ -124,10 +125,8 @@ namespace Management{
 	  break;  
       case 4: {
 	int id = atoi(UtilsLibrary::get_user_input(" Introduce el id de la matriz que quieres seleccionar: ", false, 5).c_str());
-	Matrix<float> matrix = get_matrix_by_ID(id, user_id);
-	if(matrix.getID() == id){
-	  selected_id = id;
-	} else {
+	int result = select_matrix(id, user_id);
+	if(result == -1){
 	  cerr << "No ha sido posible seleccionar esa matriz" << endl;
 	  cout<< endl << " Pulse enter para continuar...";
 	  cin.get();
@@ -229,6 +228,26 @@ namespace Management{
 	  cin.get();
 	}
 	break;
+      case 12:
+	{/*
+	  long b1 = 0;
+	  long b2 = 0;
+	  long j  = 0;
+
+	  fork2([&] {
+	      // first branch
+	      b1 = 1;
+	    }, [&] {
+	      // second branch
+	      b2 = 2;
+	    });
+	  // join point
+	  j = b1 + b2;
+
+	  std::cout << "b1 = " << b1 << "; b2 = " << b2 << "; ";
+	  std::cout << "j = " << j << ";" << std::endl;*/
+	}
+	break;
       case 13: 
 	{	 
 	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
@@ -299,3 +318,12 @@ namespace Management{
       return run_option(selected_option, matrix_id, user_id);
     }
   }
+
+int select_matrix(int matrix_id, int user_id){
+  int result = -1;
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
+  if(matrix.getID() == matrix_id){
+   result = matrix.getID();
+  }
+  return result;
+}
