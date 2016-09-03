@@ -26,3 +26,18 @@ To compile:
 and then 
 
 >./build/main
+
+Login Screen:<br/>
+
+![ScreenShot](https://cloud.githubusercontent.com/assets/3706122/18183600/6a662d3c-7095-11e6-91ba-923fd788ef34.png)
+
+Initial menu:<br/>
+
+![ScreenShot](https://cloud.githubusercontent.com/assets/3706122/18183691/ccf81082-7095-11e6-8680-1d94c1db6aa7.png)
+
+To compile unit test for matrix test cases:
+> g++ test/matrix_tests.cpp -I /usr/local/include/pqxx -I include/ -I src/ -o build/matrix_test -lpqxx -lpq -lsodium
+
+To compile fuzzing test with afl:
+>afl-fuzz -i /home/sgalvez/projects/matrixes/test -o /home/sgalvez/projects/matrixes/test/in/ /home/sgalvez/projects/matrixes/build/matrix_test -I /usr/local/include/pqxx -I include/ -I src/ -lpqxx -lpq -lsodium
+
