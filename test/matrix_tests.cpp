@@ -15,10 +15,9 @@
 
 void seleccionar_matriz_id_correcto();
 void seleccionar_matriz_id_no_existente();
-/*
-void seleccionar_matriz_id_no_numerico();
-void seleccionar_matriz_id_negativo();
 
+void seleccionar_matriz_id_negativo();
+/*
 void crear_matriz();
 void crear_matriz_fuera_limites();
 void crear_matriz_dimensiones_negativos();
@@ -38,12 +37,10 @@ void modificar_celda_valor_fuera_limites();
 int main(void){
 
   seleccionar_matriz_id_correcto();
-  // seleccionar_matriz_id_no_existente();
+  seleccionar_matriz_id_no_existente();
 }
 
 void seleccionar_matriz_id_correcto(){
-  int option = 4; 
-
   int expected = 85;
   int matrix_id = 85;
   int actual = select_matrix(matrix_id, USER_ID);
@@ -52,12 +49,15 @@ void seleccionar_matriz_id_correcto(){
 }
 
 void seleccionar_matriz_id_no_existente(){
-  int option = 4; 
-
   int expected = -1;
   int matrix_id = -1;
   int actual = actual = select_matrix(matrix_id, USER_ID);
-  cout << actual << " actual" << endl;
   assert(expected == actual);
 }
 
+void seleccionar_matriz_id_negativo(){
+  int expected = -1;
+  int matrix_id = -33;
+  int actual = actual = select_matrix(matrix_id, USER_ID);
+  assert(expected == actual);
+}
