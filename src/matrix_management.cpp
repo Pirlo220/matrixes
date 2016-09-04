@@ -14,6 +14,33 @@
 #include <iomanip>
 #include <algorithm>
 #include <math.h>
+#include <pthread.h>
+
+using namespace std;
+
+float shared_data = 0;
+pthread_t tid[2];
+pthread_mutex_t lock;
+
+struct arg_struct {
+    int selected_id;
+    int user_id;
+};
+
+void* matrix_sum(void *arg){
+  struct arg_struct *args = (struct arg_struct *)arg;
+  pthread_mutex_lock(&lock);
+  Matrix<float> matrix = get_matrix_by_ID(args->selected_id, args->user_id);
+   
+  for(int r = 0; r < matrix.getRows();r++){
+    for(int c = 0; c <  matrix.getCols();c++){
+   
+      shared_data += matrix.operator()(r,c);
+    }
+  }  
+  pthread_mutex_unlock(&lock);
+  return NULL;
+}
 
 namespace Management{
 
@@ -181,6 +208,54 @@ namespace Management{
 	    std::string message = stream.str();
 	    log(message);
 	  }
+	  cin.ignore(1024, '\n');
+	  cout<< endl << " Pulse enter para continuar...";	  
+	  cin.get();
+	}
+	break;
+      case 8:
+	{
+	  cout << " Introduce id matriz 1: ";
+	  int id_1 = 0;    
+	  while(!(cin >> id_1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  cout << " Introduce id matriz 2: ";
+	  int id_2 = 0;    
+	  while(!(cin >> id_2)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  if (pthread_mutex_init(&lock, NULL) != 0){
+	    cout << "\n mutex init failed\n" << endl;
+	    return selected_id;
+	  }
+	  int i = 0;
+	  int err;
+	  //while(i < 2) {
+	
+	  struct arg_struct args_1;// = malloc(sizeof(struct arg_struct));
+	  args_1.selected_id = id_1;
+	  args_1.user_id = user_id;
+	 
+	  struct arg_struct args_2;// = malloc(sizeof(struct arg_struct));
+	  args_2.selected_id = id_2;
+	  args_2.user_id = user_id;
+	
+	  pthread_create(&(tid[0]), NULL, &matrix_sum, &args_1);
+	 
+	  pthread_create(&(tid[1]), NULL, &matrix_sum, &args_2);
+	
+	  pthread_join(tid[0], NULL);
+	 
+	  pthread_join(tid[1], NULL);
+
+	  pthread_mutex_destroy(&lock);
+	  cout << "Suma total: " << shared_data << endl;
+	  shared_data = 0;
 	  cin.ignore(1024, '\n');
 	  cout<< endl << " Pulse enter para continuar...";	  
 	  cin.get();

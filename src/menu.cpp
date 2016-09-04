@@ -25,7 +25,7 @@ void print_menu(int matrix_id){
   cout << " " << MenuValuesConstants::Salir << ".-  Salir" << endl;
   if(matrix_id > 0){
     cout << " " << MenuValuesConstants::ModifCelda << ".- Modificar Celda" << endl;
-    cout << " " << MenuValuesConstants::IntCelda << ".- Intercambiar Celdas" << endl;
+    cout << " " << MenuValuesConstants::IntCelda << ".- Sumar valores de dos Matrices" << endl;
     cout << " " << MenuValuesConstants::ModifFila << ".- Modificar Fila" << endl;
     cout << " " << MenuValuesConstants::IntFilas << ".- Intercambiar Filas" << endl;
     cout << " " << MenuValuesConstants::SumaFila << ".- Mostrar Suma Fila" << endl;
