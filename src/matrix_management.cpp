@@ -82,7 +82,7 @@ namespace Management{
 	    cout << "[2] Nombre" << endl;
 	    cout << "[0] Volver menú" << endl;
 	    int opt = 0;
-	    while(!(cin >> opt) || (opt > 2 && opt < 0)){
+	    while(!(cin >> opt) || (opt > 2 || opt < 0)){
 	      cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
 	      cin.clear();
 	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
