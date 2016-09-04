@@ -122,18 +122,26 @@ void log_error(string data){
 string get_content_hash(string data){
   unsigned char hash[crypto_generichash_BYTES];
   const unsigned char *data_p = new unsigned char[data.length()+1];
- 
-  data_p = (const unsigned char *)data.c_str();
-  crypto_generichash(hash, sizeof hash,
-                   data_p, data.length()+1,
-                   NULL, 0);
-  ostringstream convert; 
-  for (size_t j = 0; j <sizeof hash; ++j) {
-    convert << ((unsigned int) hash[j]);
+  string result = "";
+  try{
+    data_p = (const unsigned char *)data.c_str();
+    crypto_generichash(hash, sizeof hash,
+		       data_p, data.length()+1,
+		       NULL, 0);
+    ostringstream convert; 
+    for (size_t j = 0; j <sizeof hash; ++j) {
+      convert << ((unsigned int) hash[j]);
+    }
+    data_p = NULL;
+    delete[] data_p;
+    result = convert.str(); 
+  } catch (const std::exception &e) {
+    if(data_p){
+      data_p = NULL;
+      delete[] data_p;
+    }  
   }
-  data_p = NULL;
-  delete[] data_p;
-  return convert.str(); 
+  return result;
 }
 
 void print_logger_content(string file){
