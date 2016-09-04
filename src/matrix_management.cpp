@@ -121,8 +121,8 @@ namespace Management{
 	  break;  
       case 4: {
 	int id = atoi(UtilsLibrary::get_user_input(" Introduce el id de la matriz que quieres seleccionar: ", false, 5).c_str());
-	int result = select_matrix(id, user_id);
-	if(result == -1){
+	selected_id = select_matrix(id, user_id);
+	if(selected_id == -1){
 	  cerr << "No ha sido posible seleccionar esa matriz" << endl;
 	  cout<< endl << " Pulse enter para continuar...";
 	  cin.get();
@@ -225,8 +225,39 @@ namespace Management{
 	  cin.get();
 	}
 	break;
-      case 12:
+      case 10:
 	{
+	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
+	  cout << " Introduce Número de Fila número 1: ";
+	  int r1 = 0;
+	  while(!(cin >> r1) || (r1 > matrix.getRows() - 1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  cout << " Introduce Número de Fila número 2: ";
+	  int r2 = 0;
+	  while(!(cin >> r2) || (r2 > matrix.getRows() - 1)){
+	    cout << " Formato Incorrecto!! Vuelve a introducirlo : ";
+	    cin.clear();
+	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	  }
+	  bool resultado = exchange_rows(r1, r2, selected_id, user_id);
+
+	  if(!resultado){
+	    std::ostringstream stream;
+	    stream << "Error:  intercambiar filas: " << r1 << ", " << r2 << " de la matriz " << selected_id << endl;
+	    cerr << stream.str() << endl;
+	    log_error(stream.str());
+	  } else {
+	    std::ostringstream stream;
+	    stream << "Filas (" << r1 << ", " << r2 << ") de matriz  " << selected_id << " intercambiadas" << endl;
+	    std::string message = stream.str();
+	    log(message);
+	  }
+	  cin.ignore(1024, '\n');	  
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get();
 	}
 	break;
       case 13: 
@@ -289,8 +320,6 @@ namespace Management{
     return selected_id;
   }
   
-  
-
   int run_app(int matrix_id, int user_id){
       system("clear");
       print_menu(matrix_id);
@@ -327,6 +356,32 @@ bool update_cell(int selected_id, int col, int row, float value){
      (col >= 0 && col <= AppValues::MAX_COLS) &&
      (row >= 0 && row <= AppValues::MAX_ROWS)){
     result = update_matrix_content(selected_id, col, row, value);  
+  }
+  return result;
+}
+
+bool exchange_rows(int r1, int r2, int matrix_id, int user_id){
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
+  bool result = true;
+  std::vector<float> v1(matrix.getCols()); 
+  std::vector<float> v2(matrix.getCols());
+
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    v1[pos] =  matrix.operator()(r1, pos);
+    v2[pos] =  matrix.operator()(r2, pos);
+  }
+  
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    float value1 = v1[pos];
+    float value2 = v2[pos];
+   
+    if(update_cell(matrix_id, pos, r1, value2) && update_cell(matrix_id, pos, r2, value1)){
+      continue;
+    } else {
+      cout << "Error "<< endl;
+      result = false;
+      break;
+    }
   }
   return result;
 }
