@@ -121,7 +121,7 @@ void log_error(string data){
 
 string get_content_hash(string data){
   unsigned char hash[crypto_generichash_BYTES];
-  const unsigned char *data_p(data.length()+1);// = new unsigned char[data.length()+1];
+  const unsigned char *data_p = new unsigned char[data.length()+1];
  
   data_p = (const unsigned char *)data.c_str();
   crypto_generichash(hash, sizeof hash,
@@ -132,7 +132,7 @@ string get_content_hash(string data){
     convert << ((unsigned int) hash[j]);
   }
   data_p = NULL;
-  delete data_p;
+  delete[] data_p;
   return convert.str(); 
 }
 
