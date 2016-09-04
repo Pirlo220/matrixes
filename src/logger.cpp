@@ -121,10 +121,12 @@ void log_error(string data){
 
 string get_content_hash(string data){
   unsigned char hash[crypto_generichash_BYTES];
-  const unsigned char *data_p = new unsigned char[data.length()+1];
+  unsigned char *data_p = new unsigned char[data.length()+1];
   string result = "";
   try{
-    data_p = (const unsigned char *)data.c_str();
+    //data_p = (const unsigned char *)data.c_str();
+    std::copy(data.begin(), data.end(), data_p);
+    data_p[data.size()] = '\0';
     crypto_generichash(hash, sizeof hash,
 		       data_p, data.length()+1,
 		       NULL, 0);
