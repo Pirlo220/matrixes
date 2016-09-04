@@ -41,13 +41,12 @@ namespace Management{
 		cout <<  matrix.operator()(r,c) << " | " ;
 		}
 		    cout << endl;
-		  }
-	   
-	    }
-	    cout<< endl << " Pulse enter para continuar...";
-	    cin.get();	  
+	    }	   
 	  }
-	  break;
+	  cout<< endl << " Pulse enter para continuar...";
+	  cin.get();	  
+	}
+	break;
   
 	case 2 : 
 	  { 
@@ -104,9 +103,7 @@ namespace Management{
 	      cin.clear();
 	      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	    }
-	    Matrix<float> mMatrix(rows, cols, user_id, name);
-	    Matrix<float> *c = &mMatrix;
-	    selected_id =  save_matrix(c);
+	    selected_id = save_matrix(rows, cols, user_id, name);
 	    cin.ignore(1024, '\n');
 	    if(selected_id > 0){
 	      cout << " Matriz creada con ID: " << selected_id << endl;
@@ -119,8 +116,7 @@ namespace Management{
 	      log_error("No Matriz Creada");
 	    }	
 	    cout << " Pulse enter para continuar...";
-	    cin.get();
-	    //mMatrix.Matrix<float>::~Matrix();    
+	    cin.get();    
 	  }
 	  break;  
       case 4: {
@@ -324,6 +320,18 @@ int select_matrix(int matrix_id, int user_id){
   Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
   if(matrix.getID() == matrix_id){
    result = matrix.getID();
+  }
+  return result;
+}
+
+int save_matrix(int rows, int cols, int user_id, string name){
+  int result = -1;
+  if((rows > 0 && rows < 11) && 
+     (cols > 0 && cols < 11) && 
+     user_id > 0 && sizeof name > 0){
+    Matrix<float> mMatrix(rows, cols, user_id, name);
+    Matrix<float> *c = &mMatrix;
+    result =  save_matrix(c);
   }
   return result;
 }
