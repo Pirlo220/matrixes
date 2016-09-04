@@ -212,6 +212,7 @@ namespace Management{
 	      stream << "Error al modificar columna: " << pos << ", fila " << row << " de la matriz " << selected_id << endl;
 	    cerr << stream.str() << endl;
 	    log_error(stream.str());
+	    break;
 	  } else {
 	    std::ostringstream stream;
 	    stream << "Posición (" << pos << ", " << row << ") de matriz  " << selected_id << " modificada con valor " << value;
@@ -225,23 +226,7 @@ namespace Management{
 	}
 	break;
       case 12:
-	{/*
-	  long b1 = 0;
-	  long b2 = 0;
-	  long j  = 0;
-
-	  fork2([&] {
-	      // first branch
-	      b1 = 1;
-	    }, [&] {
-	      // second branch
-	      b2 = 2;
-	    });
-	  // join point
-	  j = b1 + b2;
-
-	  std::cout << "b1 = " << b1 << "; b2 = " << b2 << "; ";
-	  std::cout << "j = " << j << ";" << std::endl;*/
+	{
 	}
 	break;
       case 13: 
@@ -332,6 +317,16 @@ int save_matrix(int rows, int cols, int user_id, string name){
     Matrix<float> mMatrix(rows, cols, user_id, name);
     Matrix<float> *c = &mMatrix;
     result =  save_matrix(c);
+  }
+  return result;
+}
+
+bool update_cell(int selected_id, int col, int row, float value){
+  bool result = false;
+  if(selected_id > 0 && 
+     (col >= 0 && col <= AppValues::MAX_COLS) &&
+     (row >= 0 && row <= AppValues::MAX_ROWS)){
+    result = update_matrix_content(selected_id, col, row, value);  
   }
   return result;
 }

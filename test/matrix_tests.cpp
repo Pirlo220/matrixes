@@ -21,11 +21,10 @@ void crear_matriz();
 void crear_matriz_fuera_limites();
 void crear_matriz_dimensiones_negativos();
 
-/*void modificar_fila_valores_correctos();
-void modificar_fila_valor_negativo();
-void modificar_fila_valor_no_numerico();
+void modificar_fila_valores_correctos();
+void modificar_fila_columna_negativa();
 void modificar_fila_valor_fuera_limites();
-
+/*
 void modificar_celda_valor_correcto();
 void modificar_celda_valor_negativo();
 void modificar_celda_valor_no_numerico();
@@ -41,6 +40,9 @@ int main(void){
   crear_matriz();
   crear_matriz_fuera_limites();
   crear_matriz_dimensiones_negativos();
+  modificar_fila_valores_correctos();
+  modificar_fila_columna_negativa();
+  modificar_fila_valor_fuera_limites();
 }
 
 void seleccionar_matriz_id_correcto(){
@@ -75,7 +77,7 @@ void crear_matriz() {
 }
 
 void crear_matriz_fuera_limites(){
-  int cols =55;
+  int cols = 55;
   int rows = 55;
   int user_id = 1;
   string name = "test";
@@ -90,4 +92,55 @@ void crear_matriz_dimensiones_negativos(){
   string name = "test";
   int result = save_matrix(cols, rows, user_id, name);
   assert(result == -1);
+}
+
+void modificar_fila_valores_correctos(){
+  int user_id = 1;
+  int matrix_id = 85;
+  int cols = 3;
+  int selected_row = 0;
+  float value = 10.0;
+  
+  for(int pos = 0; pos < cols; pos++){
+    assert(update_cell(matrix_id, pos, selected_row, value++));
+  }
+  value = 10.0;
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
+  
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    assert(matrix.operator()(selected_row, pos) == value);
+    value++;
+  }
+}
+
+void modificar_fila_columna_negativa(){
+  int user_id = 1;
+  int matrix_id = 85;
+  int cols = -3;
+  int selected_row = 0;
+  float value = 10.0;
+  
+  for(int pos = 0; pos < cols; pos++){
+    assert(update_cell(matrix_id, pos, selected_row, value++) == false);
+  }
+
+  value = 10.0;
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
+  
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    assert(matrix.operator()(selected_row, pos) == value);
+    value++;
+  }
+}
+
+void modificar_fila_valor_fuera_limites(){
+  int user_id = 1;
+  int matrix_id = 85;
+  int cols = 3;
+  int selected_row = 220;
+  float value = 10.0;
+  
+  for(int pos = 0; pos < cols; pos++){
+    assert(update_cell(matrix_id, pos, selected_row, value++) == false);
+  }
 }
