@@ -15,12 +15,13 @@
 
 int main(void)
 {
-int option = 0;
+  int option = 0;
   int matrix_id = 0;
   int user_id = 0;
   cin >> option;
   cin >> matrix_id;
   cin >> user_id;
   int x = Management::run_option(option, matrix_id, user_id);
+  cout << "x= " << x << endl;
   assert(x == matrix_id);
 }

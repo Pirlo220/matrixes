@@ -148,11 +148,13 @@ namespace Management{
 	  break;  
       case 4: {
 	int id = atoi(UtilsLibrary::get_user_input(" Introduce el id de la matriz que quieres seleccionar: ", false, 5).c_str());
-	selected_id = select_matrix(id, user_id);
-	if(selected_id == -1){
+	int id_devuelta = select_matrix(id, user_id);
+	if(id_devuelta == -1){
 	  cerr << "No ha sido posible seleccionar esa matriz" << endl;
 	  cout<< endl << " Pulse enter para continuar...";
 	  cin.get();
+	} else {
+	  selected_id = id_devuelta;
 	}
       }
 	break;
