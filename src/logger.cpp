@@ -12,7 +12,6 @@
 #define MAXLEN 64
 #define URL "./logs/"
 
-//using namespace std;
 using namespace UtilsLibrary;
 
 string get_content_hash(string data);
@@ -33,7 +32,6 @@ void update_log_hash(string hash, string log_name){
 
   txn.commit();  
 }
-
 
 string get_log_hash(std::string log_name){
   pqxx::connection c("dbname=matrixes user=matrixuser");
@@ -123,7 +121,7 @@ void log_error(string data){
 
 string get_content_hash(string data){
   unsigned char hash[crypto_generichash_BYTES];
-  const unsigned char *data_p = new unsigned char[data.length()+1];
+  const unsigned char *data_p(data.length()+1);// = new unsigned char[data.length()+1];
  
   data_p = (const unsigned char *)data.c_str();
   crypto_generichash(hash, sizeof hash,
