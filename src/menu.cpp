@@ -25,15 +25,12 @@ void print_menu(int matrix_id){
   cout << " " << MenuValuesConstants::Salir << ".-  Salir" << endl;
   if(matrix_id > 0){
     cout << " " << MenuValuesConstants::ModifCelda << ".- Modificar Celda" << endl;
-    cout << " " << MenuValuesConstants::IntCelda << ".- Sumar valores de dos Matrices" << endl;
+    cout << " " << MenuValuesConstants::SumaMatrices << ".- Sumar valores de dos Matrices" << endl;
     cout << " " << MenuValuesConstants::ModifFila << ".- Modificar Fila" << endl;
     cout << " " << MenuValuesConstants::IntFilas << ".- Intercambiar Filas" << endl;
-    cout << " " << MenuValuesConstants::SumaFila << ".- Mostrar Suma Fila" << endl;
-    cout << " " << MenuValuesConstants::MediaFila << ".- Mostrar Media Fila" << endl;
-    cout << " " << MenuValuesConstants::ModifColumna << ".- Modificar Columna" << endl;
-    cout << " " << MenuValuesConstants::IntColumnas << ".- Ordenar Matriz" << endl;
-    cout << " " << MenuValuesConstants::OrdenarFila << ".- Ordenar Fila" << endl;
-    cout << " " << MenuValuesConstants::OrdenarColumna << ".- Ordenar Columna" << endl;  
+      cout << " " << MenuValuesConstants::ModifColumna << ".- Modificar Columna" << endl;
+    cout << " " << MenuValuesConstants::OrdenarMatriz << ".- Ordenar Matriz" << endl;
+     
   }
   cout << endl;
 }

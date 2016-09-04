@@ -337,7 +337,7 @@ namespace Management{
 	  cin.get();
 	}
 	break;
-      case 13: 
+      case 11: 
 	{	 
 	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
 	  cout << " Introduce Número de columna a modificar: ";
@@ -375,7 +375,7 @@ namespace Management{
 	  cin.get();
 	}
 	break; 
-      case 14:
+      case 12:
 	{
 	  Matrix<float> matrix = get_matrix_by_ID(selected_id, user_id);
 	  matrix.sort();

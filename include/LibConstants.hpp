@@ -12,16 +12,12 @@ namespace MenuValuesConstants
   const int Historico = 5;
   const int Salir = 6;
   const int ModifCelda = 7;
-  const int IntCelda = 8;
+  const int SumaMatrices = 8;
   const int ModifFila = 9;
   const int IntFilas = 10;
-  const int SumaFila = 11;
-  const int MediaFila = 12;
-  const int ModifColumna = 13;
-  const int IntColumnas = 14;
-  const int OrdenarFila = 15;
-  const int OrdenarColumna = 16;  
-}
+  const int ModifColumna = 11;
+  const int OrdenarMatriz = 12;
+ }
 namespace AppValues {
 #define OUT_LEN 128
 #define OPSLIMIT 500000
