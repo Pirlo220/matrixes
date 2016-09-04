@@ -136,10 +136,10 @@ string get_content_hash(string data){
     delete[] data_p;
     result = convert.str(); 
   } catch (const std::exception &e) {
-    if(data_p){
+    //if(data_p){
       data_p = NULL;
       delete[] data_p;
-    }  
+    //}  
   }
   return result;
 }
