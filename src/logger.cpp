@@ -123,7 +123,7 @@ string get_content_hash(string data){
   unsigned char hash[crypto_generichash_BYTES];
   unsigned char *data_p = new unsigned char[data.length()+1];
   string result = "";
-  try{
+  // try{
     //data_p = (const unsigned char *)data.c_str();
     std::copy(data.begin(), data.end(), data_p);
     data_p[data.size()] = '\0';
@@ -137,12 +137,12 @@ string get_content_hash(string data){
     data_p = NULL;
     delete[] data_p;
     result = convert.str(); 
-  } catch (const std::exception &e) {
+    // } catch (const std::exception &e) {
     //if(data_p){
-      data_p = NULL;
-      delete[] data_p;
+    // data_p = NULL;
+    // delete[] data_p;
     //}  
-  }
+    //}
   return result;
 }
 
