@@ -13,6 +13,8 @@
 #include "utils.cpp"
 #include "matrix_management.cpp"
 
+#define USER_ID 1
+
 void seleccionar_matriz_id_correcto();
 void seleccionar_matriz_id_no_existente();
 void seleccionar_matriz_id_negativo();
@@ -24,16 +26,11 @@ void crear_matriz_dimensiones_negativos();
 void modificar_fila_valores_correctos();
 void modificar_fila_columna_negativa();
 void modificar_fila_valor_fuera_limites();
-/*
-void modificar_celda_valor_correcto();
-void modificar_celda_valor_negativo();
-void modificar_celda_valor_no_numerico();
-void modificar_celda_valor_fuera_limites();
-*/
-#define USER_ID 1
+
+void intercambiar_filas_existentes();
+void intercambiar_filas_inexistentes();
 
 int main(void){
-
   seleccionar_matriz_id_correcto();
   seleccionar_matriz_id_no_existente();
   seleccionar_matriz_id_negativo();
@@ -43,6 +40,8 @@ int main(void){
   modificar_fila_valores_correctos();
   modificar_fila_columna_negativa();
   modificar_fila_valor_fuera_limites();
+  intercambiar_filas_existentes();
+  intercambiar_filas_inexistentes();
 }
 
 void seleccionar_matriz_id_correcto(){
@@ -72,7 +71,7 @@ void crear_matriz() {
   int rows = 5;
   int user_id = 1;
   string name = "test";
-  int result = save_matrix(cols, rows, user_id, name);
+  int result = save_matrix(cols, rows, USER_ID, name);
   assert(result > 0);
 }
 
@@ -105,7 +104,7 @@ void modificar_fila_valores_correctos(){
     assert(update_cell(matrix_id, pos, selected_row, value++));
   }
   value = 10.0;
-  Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, USER_ID);
   
   for(int pos = 0; pos < matrix.getCols(); pos++){
     assert(matrix.operator()(selected_row, pos) == value);
@@ -125,7 +124,7 @@ void modificar_fila_columna_negativa(){
   }
 
   value = 10.0;
-  Matrix<float> matrix = get_matrix_by_ID(matrix_id, user_id);
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, USER_ID);
   
   for(int pos = 0; pos < matrix.getCols(); pos++){
     assert(matrix.operator()(selected_row, pos) == value);
@@ -144,3 +143,43 @@ void modificar_fila_valor_fuera_limites(){
     assert(update_cell(matrix_id, pos, selected_row, value++) == false);
   }
 }
+
+void intercambiar_filas_existentes(){
+  int r1 = 0;
+  int r2 = 1;
+  int matrix_id = 85;
+
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, USER_ID);
+  std::vector<float> v1(matrix.getCols()); 
+  std::vector<float> v2(matrix.getCols());
+
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    v1[pos] =  matrix.operator()(r1, pos);
+    v2[pos] =  matrix.operator()(r2, pos);
+  }
+  bool resultado = exchange_rows(r1, r2, matrix_id, USER_ID);
+  assert(resultado); 
+
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    assert(matrix.operator()(r1, pos) == v2[pos]);
+    assert(matrix.operator()(r2, pos) == v1[pos]);
+  }  
+}
+
+void intercambiar_filas_inexistentes(){
+  int r1 = 4;
+  int r2 = 5;
+  int matrix_id = 85;
+
+  Matrix<float> matrix = get_matrix_by_ID(matrix_id, USER_ID);
+  std::vector<float> v1(matrix.getCols()); 
+  std::vector<float> v2(matrix.getCols());
+
+  for(int pos = 0; pos < matrix.getCols(); pos++){
+    v1[pos] =  matrix.operator()(r1, pos);
+    v2[pos] =  matrix.operator()(r2, pos);
+  }
+  bool resultado = exchange_rows(r1, r2, matrix_id, USER_ID);
+  assert(!resultado);
+}
+
